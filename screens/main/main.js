@@ -39,13 +39,13 @@ const Main = DrawerNavigator(
             screen: HomeScreen
         },
         Content: {
-            screen: ContactConst
+            screen: HomeScreen
         },
         Content2: {
-            screen: SenicConst
+            screen: HomeScreen
         },
         Content3: {
-            screen: MyConst
+            screen: HomeScreen
         }
     }, {
         contentComponent: SideBarScreen,
@@ -81,6 +81,10 @@ MyConst.navigationOptions = {
 };
 
 const SideBarScreen = ({navigation}) => (
+    <SideBarView banner={'这里可以传值到侧滑'} navigation={navigation}/>
+);
+
+const SideBarView = ({navigation}) => (
     <ScrollView style={styles.bg}>
 
         <View>

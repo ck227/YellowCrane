@@ -7,6 +7,8 @@ import {
 import {StackNavigator} from 'react-navigation';
 import Header from '../header/header'
 
+var naviga
+
 export default class HomeScreen extends React.Component {
 
     _backClick = () => {
@@ -15,6 +17,7 @@ export default class HomeScreen extends React.Component {
 
     constructor(props) {
         super(props);
+        naviga = this.props.navigation
     }
 
     render() {
