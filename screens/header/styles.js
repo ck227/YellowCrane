@@ -2,12 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     header: {
-        backgroundColor: "#4a9df8",
+        backgroundColor: "#e84a22",
         height: 76,
         paddingTop: 20,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     width48: {
         width: 60

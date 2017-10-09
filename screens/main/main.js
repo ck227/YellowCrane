@@ -33,53 +33,6 @@ export default class MainScreen extends Component {
 
 }
 
-const Main = DrawerNavigator(
-    {
-        Home: {
-            screen: HomeScreen
-        },
-        Content: {
-            screen: HomeScreen
-        },
-        Content2: {
-            screen: HomeScreen
-        },
-        Content3: {
-            screen: HomeScreen
-        }
-    }, {
-        contentComponent: SideBarScreen,
-        header: null,
-        drawerWidth: 270,
-        drawerPosition: 'left',
-        inactiveTintColor: '#000000',
-        activeTintColor: '#1eacff',
-        backgroundColor: '#1b2328',
-        inactiveBackgroundColor: '#242b30',
-    },
-)
-
-const ContactConst = ({navigation}) => (
-    <HomeScreen banner={'设置'} navigation={navigation}/>
-);
-ContactConst.navigationOptions = {
-    drawerLabel: 'contact'
-};
-
-const SenicConst = ({navigation}) => (
-    <HomeScreen banner={'设置'} navigation={navigation}/>
-);
-SenicConst.navigationOptions = {
-    drawerLabel: 'senic'
-};
-
-const MyConst = ({navigation}) => (
-    <HomeScreen banner={'设置'} navigation={navigation}/>
-);
-MyConst.navigationOptions = {
-    drawerLabel: 'my'
-};
-
 const SideBarScreen = ({navigation}) => (
     <SideBarView banner={'这里可以传值到侧滑'} navigation={navigation}/>
 );
@@ -95,7 +48,7 @@ const SideBarView = ({navigation}) => (
         </View>
 
         {/*中间的内容*/}
-        <View style={styles.centerItem}>
+        {/*<View style={styles.centerItem}>
             <TouchableOpacity style={styles.centerItems} onPress={() => navigation.navigate('contact')}>
                 <View style={{alignItems: 'center'}}>
                     <Image style={styles.itemsIcon} source={(require("../../assets/images/collect.png"))}/>
@@ -117,10 +70,11 @@ const SideBarView = ({navigation}) => (
                 </View>
             </TouchableOpacity>
 
-        </View>
+        </View>*/}
 
         {/*下面的内容列表 //, {id: '16'}*/}
-        <TouchableOpacity onPress={() => navigation.navigate('Content')}>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <View style={styles.contentItem}>
                 {/*<Image style={styles.contentIcon} source={(require("../assets/images/home.png"))}/>*/}
                 <Text style={styles.contentText}>首页</Text>
@@ -131,10 +85,21 @@ const SideBarView = ({navigation}) => (
 
         </TouchableOpacity>
 
+        <TouchableOpacity onPress={() => navigation.navigate('Content')}>
+            <View style={styles.contentItem2}>
+                {/*<Image style={styles.contentIcon} source={(require("../assets/images/home.png"))}/>*/}
+                <Text style={styles.contentText}>通讯录</Text>
+                <View style={styles.arrowParent}>
+                    <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
+                </View>
+            </View>
+
+        </TouchableOpacity>
+
 
         <TouchableOpacity onPress={() => navigation.navigate('Content2')}>
             <View style={styles.contentItem2}>
-                <Text style={styles.contentText}>情感</Text>
+                <Text style={styles.contentText}>景区导航</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
                 </View>
@@ -143,7 +108,7 @@ const SideBarView = ({navigation}) => (
 
         <TouchableOpacity onPress={() => navigation.navigate('Content3')}>
             <View style={styles.contentItem2}>
-                <Text style={styles.contentText}>人际</Text>
+                <Text style={styles.contentText}>个人中心</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
                 </View>
@@ -156,3 +121,60 @@ const SideBarView = ({navigation}) => (
         {/*</View>*/}
     </ScrollView>
 )
+
+const HomeConst = ({navigation}) => (
+    <HomeScreen banner={'首页'} navigation={navigation}/>
+);
+HomeConst.navigationOptions = {
+    drawerLabel: 'home'
+};
+
+const ContactConst = ({navigation}) => (
+    <HomeScreen banner={'通讯录'} navigation={navigation}/>
+);
+ContactConst.navigationOptions = {
+    drawerLabel: 'contact'
+};
+
+const SenicConst = ({navigation}) => (
+    <HomeScreen banner={'景区导航'} navigation={navigation}/>
+);
+SenicConst.navigationOptions = {
+    drawerLabel: 'senic'
+};
+
+const MyConst = ({navigation}) => (
+    <HomeScreen banner={'个人中心'} navigation={navigation}/>
+);
+MyConst.navigationOptions = {
+    drawerLabel: 'my'
+};
+
+const Main = DrawerNavigator(
+    {
+        Home: {
+            screen: HomeConst
+        },
+        Content: {
+            screen: ContactConst
+        },
+        Content2: {
+            screen: SenicConst
+        },
+        Content3: {
+            screen: MyConst
+        }
+    }, {
+        contentComponent: SideBarScreen,
+        header: null,
+        drawerWidth: 270,
+        drawerPosition: 'left',
+        inactiveTintColor: '#000000',
+        activeTintColor: '#1eacff',
+        backgroundColor: '#1b2328',
+        inactiveBackgroundColor: '#242b30',
+    },
+)
+
+
+

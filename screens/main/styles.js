@@ -5,7 +5,7 @@ export default StyleSheet.create({
         flex: 1,
     },
     bg: {
-        backgroundColor: "#222930",
+        backgroundColor: "#fbf9f8",
         paddingTop: Platform.OS === 'ios' ? 20 : 0,
     },
     title: {
@@ -20,7 +20,7 @@ export default StyleSheet.create({
     },
     text: {
         flex: 1,
-        color: '#91969d',
+        color: '#393b3b',
         fontSize: 16,
         textAlign: 'left',
         marginLeft: 16
@@ -40,7 +40,7 @@ export default StyleSheet.create({
         height: 24
     },
     itemsText: {
-        color: '#91969d',
+        color: '#000000',
         fontSize: 14,
         marginTop: 4
     },
@@ -68,7 +68,7 @@ export default StyleSheet.create({
         height: 36
     },
     contentText: {
-        color: '#91969d',
+        color: '#393b3b',
         fontSize: 16
     },
     contentArrow: {
