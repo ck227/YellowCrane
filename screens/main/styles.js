@@ -5,11 +5,11 @@ export default StyleSheet.create({
         flex: 1,
     },
     bg: {
-        backgroundColor: "#fbf9f8",
-        paddingTop: Platform.OS === 'ios' ? 20 : 0,
+        backgroundColor: "#FFF",
+        // paddingTop: Platform.OS === 'ios' ? 20 : 0,
     },
     title: {
-        flexDirection: 'row',
+        flexDirection:'column',
         alignItems: 'center',//按次要布局方向,控制字元素的布局，
         marginTop: 16
     },

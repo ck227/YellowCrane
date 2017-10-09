@@ -41,6 +41,7 @@ const SideBarView = ({navigation}) => (
     <ScrollView style={styles.bg}>
 
         <View>
+            <Image style={{height:150}} source={(require("../../assets/images/sideBarBg2.jpg"))}/>
             <View style={styles.title}>
                 <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
                 <Text style={styles.text}>请登录</Text>
