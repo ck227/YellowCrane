@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 import HomeScreen from '../home/home'
+import ContactScreen from '../contact/contact'
 import styles from './styles';
 
 export default class MainScreen extends Component {
@@ -41,7 +42,8 @@ const SideBarView = ({navigation}) => (
     <ScrollView style={styles.bg}>
 
         <View>
-            <Image style={{height: 150, justifyContent:'center'}} source={(require("../../assets/images/sideBarBg2.jpg"))}>
+            <Image style={{height: 150, justifyContent: 'center'}}
+                   source={(require("../../assets/images/sideBarBg2.jpg"))}>
                 <View style={styles.title}>
                     <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
                     <Text style={styles.text}>请登录</Text>
@@ -135,7 +137,7 @@ HomeConst.navigationOptions = {
 };
 
 const ContactConst = ({navigation}) => (
-    <HomeScreen banner={'通讯录'} navigation={navigation}/>
+    <ContactScreen banner={'通讯录'} navigation={navigation}/>
 );
 ContactConst.navigationOptions = {
     drawerLabel: 'contact'
