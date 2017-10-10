@@ -41,11 +41,13 @@ const SideBarView = ({navigation}) => (
     <ScrollView style={styles.bg}>
 
         <View>
-            <Image style={{height:150}} source={(require("../../assets/images/sideBarBg2.jpg"))}/>
-            <View style={styles.title}>
-                <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
-                <Text style={styles.text}>请登录</Text>
-            </View>
+            <Image style={{height: 150, justifyContent:'center'}} source={(require("../../assets/images/sideBarBg2.jpg"))}>
+                <View style={styles.title}>
+                    <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
+                    <Text style={styles.text}>请登录</Text>
+                </View>
+            </Image>
+
         </View>
 
         {/*中间的内容*/}
@@ -77,7 +79,7 @@ const SideBarView = ({navigation}) => (
 
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <View style={styles.contentItem}>
-                {/*<Image style={styles.contentIcon} source={(require("../assets/images/home.png"))}/>*/}
+                <Image style={styles.contentIcon} source={(require("../../assets/images/home.png"))}/>
                 <Text style={styles.contentText}>首页</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
@@ -88,7 +90,7 @@ const SideBarView = ({navigation}) => (
 
         <TouchableOpacity onPress={() => navigation.navigate('Content')}>
             <View style={styles.contentItem2}>
-                {/*<Image style={styles.contentIcon} source={(require("../assets/images/home.png"))}/>*/}
+                <Image style={styles.contentIcon} source={(require("../../assets/images/contact.png"))}/>
                 <Text style={styles.contentText}>通讯录</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
@@ -100,6 +102,7 @@ const SideBarView = ({navigation}) => (
 
         <TouchableOpacity onPress={() => navigation.navigate('Content2')}>
             <View style={styles.contentItem2}>
+                <Image style={styles.contentIcon} source={(require("../../assets/images/senic.png"))}/>
                 <Text style={styles.contentText}>景区导航</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>
@@ -109,6 +112,7 @@ const SideBarView = ({navigation}) => (
 
         <TouchableOpacity onPress={() => navigation.navigate('Content3')}>
             <View style={styles.contentItem2}>
+                <Image style={styles.contentIcon} source={(require("../../assets/images/my.png"))}/>
                 <Text style={styles.contentText}>个人中心</Text>
                 <View style={styles.arrowParent}>
                     <Image style={styles.contentArrow} source={(require("../../assets/images/arrow_right.png"))}/>

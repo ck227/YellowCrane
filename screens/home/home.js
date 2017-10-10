@@ -120,19 +120,25 @@ export default class HomeScreen extends React.Component {
                         }}>
                             <Text style={{color: '#FFF', fontSize: 18}}>虚拟景区</Text>
                         </View>
-                        <View style={{flex: 2, backgroundColor: '#ecba0d', marginTop: 12,justifyContent: 'center',
-                            alignItems: 'center'}}>
+                        <View style={{
+                            flex: 2, backgroundColor: '#ecba0d', marginTop: 12, justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{color: '#FFF', fontSize: 18}}>巡更管理</Text>
                         </View>
                     </View>
 
                     <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
-                        <View style={{flex: 2, backgroundColor: '#7fb41b',justifyContent: 'center',
-                            alignItems: 'center'}}>
+                        <View style={{
+                            flex: 2, backgroundColor: '#7fb41b', justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{color: '#FFF', fontSize: 18}}>工单管理</Text>
                         </View>
-                        <View style={{flex: 3, backgroundColor: '#46bbfa', marginTop: 12,justifyContent: 'center',
-                            alignItems: 'center'}}>
+                        <View style={{
+                            flex: 3, backgroundColor: '#46bbfa', marginTop: 12, justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{color: '#FFF', fontSize: 18}}>事件上报</Text>
                         </View>
                     </View>
