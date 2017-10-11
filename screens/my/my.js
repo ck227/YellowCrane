@@ -1,12 +1,12 @@
 import React from 'react'
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {Text, View} from 'react-native'
 
 import Header from '../header/header'
 import styles from './styles';
 
 var naviga
 
-export default class Contact extends React.Component {
+export default class My extends React.Component {
 
     _backClick = () => {
         naviga.navigate('DrawerOpen');
@@ -23,7 +23,7 @@ export default class Contact extends React.Component {
             <View>
                 <Header showBack='false' title={this.props.banner} backFunc={this._backClick.bind(this)}/>
                 <Text style={styles.titleText} numberOfLines={1}>
-                    这里显示通讯录界面
+                    这里显示个人中心界面
                 </Text>
             </View>
         )

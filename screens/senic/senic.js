@@ -1,12 +1,12 @@
 import React from 'react'
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {Text, View} from 'react-native'
 
 import Header from '../header/header'
 import styles from './styles';
 
 var naviga
 
-export default class Contact extends React.Component {
+export default class Senic extends React.Component {
 
     _backClick = () => {
         naviga.navigate('DrawerOpen');

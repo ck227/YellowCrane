@@ -11,6 +11,8 @@ import {
 import {DrawerNavigator} from 'react-navigation';
 import HomeScreen from '../home/home'
 import ContactScreen from '../contact/contact'
+import SenicScreen from '../senic/senic'
+import MyScreen from '../my/my'
 import styles from './styles';
 
 export default class MainScreen extends Component {
@@ -144,14 +146,14 @@ ContactConst.navigationOptions = {
 };
 
 const SenicConst = ({navigation}) => (
-    <HomeScreen banner={'景区导航'} navigation={navigation}/>
+    <SenicScreen banner={'景区导航'} navigation={navigation}/>
 );
 SenicConst.navigationOptions = {
     drawerLabel: 'senic'
 };
 
 const MyConst = ({navigation}) => (
-    <HomeScreen banner={'个人中心'} navigation={navigation}/>
+    <MyScreen banner={'个人中心'} navigation={navigation}/>
 );
 MyConst.navigationOptions = {
     drawerLabel: 'my'

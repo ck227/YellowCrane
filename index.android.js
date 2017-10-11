@@ -66,4 +66,4 @@ const index = StackNavigator({
     Main: {screen: MainScreen},
 });
 
-AppRegistry.registerComponent('QuHeart4', () => index);
+AppRegistry.registerComponent('YellowCrane', () => index);

@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Platform } from 'react-native';
 
 export default StyleSheet.create({
     header: {
         backgroundColor: "#e84a22",
-        height: 76,
-        paddingTop: 20,
+        height: 60,
+        // height: 76,
+        // paddingTop: 20,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: 'space-around',
