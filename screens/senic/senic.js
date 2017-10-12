@@ -23,7 +23,7 @@ export default class Senic extends React.Component {
             <View>
                 <Header showBack='false' title={this.props.banner} backFunc={this._backClick.bind(this)}/>
                 <Text style={styles.titleText} numberOfLines={1}>
-                    这里显示通讯录界面
+                    这里显示景区导航界面
                 </Text>
             </View>
         )

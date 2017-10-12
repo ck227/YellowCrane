@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">YellowCrane</string>
+    <string name="app_name">黄鹤楼</string>
+
+    <string name="location_permission_denied">Open Mobile Map Package could not open because WRITE permission was denied.</string>
 </resources>

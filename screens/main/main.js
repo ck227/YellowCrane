@@ -6,7 +6,8 @@ import {
     ScrollView,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    NativeModules
 } from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 import HomeScreen from '../home/home'
@@ -14,6 +15,8 @@ import ContactScreen from '../contact/contact'
 import SenicScreen from '../senic/senic'
 import MyScreen from '../my/my'
 import styles from './styles';
+
+const activityStarter = NativeModules.ActivityStarter;
 
 export default class MainScreen extends Component {
 
@@ -104,7 +107,8 @@ const SideBarView = ({navigation}) => (
         </TouchableOpacity>
 
 
-        <TouchableOpacity onPress={() => navigation.navigate('Content2')}>
+        {/*<TouchableOpacity onPress={() => navigation.navigate('Content2')}>*/}
+        <TouchableOpacity onPress={() => activityStarter.navigateToMap()}>
             <View style={styles.contentItem2}>
                 <Image style={styles.contentIcon} source={(require("../../assets/images/senic.png"))}/>
                 <Text style={styles.contentText}>景区导航</Text>
