@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -34,6 +36,8 @@ public class MapActivity extends ReactActivity {
     private MapView mMapView;
     private MobileMapPackage mapPackage;
 
+    private ImageView left;
+
     String[] reqPermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private int requestCode = 2;
 
@@ -57,6 +61,13 @@ public class MapActivity extends ReactActivity {
 
         // retrieve the MapView from layout
         mMapView = (MapView) findViewById(R.id.mapView);
+        left = (ImageView) findViewById(R.id.left);
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // For API level 23+ request permission at runtime
         if (ContextCompat.checkSelfPermission(MapActivity.this, reqPermission[0]) == PackageManager.PERMISSION_GRANTED) {

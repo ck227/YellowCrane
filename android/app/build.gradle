@@ -130,6 +130,10 @@ android {
             }
         }
     }
+
+    //use legacy for android 6.0
+    useLibrary 'org.apache.http.legacy'
+
 }
 
 dependencies {
@@ -139,6 +143,7 @@ dependencies {
     // From node_modules
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.esri.arcgisruntime:arcgis-android:100.1.0'
+    compile 'com.hyphenate:hyphenate-sdk:3.3.0'
 }
 
 // Run this once to be able to run the application with BUCK
