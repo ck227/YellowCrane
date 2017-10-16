@@ -74,8 +74,14 @@ export default class LoginScreen extends React.Component {
             // this.setState({
             //     jsonData : responseJson
             // });
-            Alert.alert(responseJson.obj.userId.toString())
-            this.onLoginSuccess.bind(this)
+            // Alert.alert(responseJson.obj.userId.toString())
+            Alert.alert('登录成功')
+            this.setState({
+                account: '',
+                password: '',
+                loading: false,
+                error: ''
+            });
         } catch (error) {
             console.error(error);
             this.onLoginFail.bind(this)
