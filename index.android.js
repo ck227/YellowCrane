@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import {AppRegistry, StyleSheet, Image, View} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import MainScreen from './screens/main/main'
+import LoginScreen from './screens/login/login'
 
 class IndexScreen extends Component {
 
@@ -20,7 +21,8 @@ class IndexScreen extends Component {
         super(props);
         this.timer = setTimeout(
             () => {
-                this.props.navigation.navigate('Main')
+                // this.props.navigation.navigate('Main')
+                this.props.navigation.navigate('Login')
             },
             500
         );
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
 const index = StackNavigator({
     Index: {screen: IndexScreen},
     Main: {screen: MainScreen},
+    Login: {screen: LoginScreen},
 });
 
 AppRegistry.registerComponent('YellowCrane', () => index);

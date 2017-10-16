@@ -3,6 +3,7 @@ package com.yellowcrane;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.psykar.cookiemanager.CookieManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -10,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.psykar.cookiemanager.CookieManagerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -22,8 +25,9 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                    new ActivityStarterReactPackage(),//这里加是什么干嘛的呢?
-                    new MainReactPackage()
+                    new ActivityStarterReactPackage(),//这里加是什么干嘛的呢，RN调native界面
+                    new MainReactPackage(),
+            new CookieManagerPackage()
             );
         }
     };
