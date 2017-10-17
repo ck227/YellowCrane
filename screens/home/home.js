@@ -27,6 +27,14 @@ export default class HomeScreen extends React.Component {
 
     render() {
 
+        {/*<ScrollView
+            contentContainerStyle={{flex:1}} //非常重要，让ScrollView的子元素占满整个区域
+            keyboardDismissMode='on-drag' //拖动界面输入法退出
+            keyboardShouldPersistTaps={false} //点击输入法意外的区域，输入法退出
+        >
+            ....
+        </ScrollView>*/}
+
         return (
             <View style={{flexDirection: 'column'}}>
                 <Header showBack='false' title={this.props.banner} backFunc={this._backClick.bind(this)}/>
