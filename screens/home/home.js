@@ -1,20 +1,15 @@
 import React from 'react';
 
-import {
-    StyleSheet,
-    View,
-    Image,
-    Text
-} from 'react-native';
+import {Image, Text, View, Alert} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import Header from '../header/header'
+import UploadScreen from '../order/uploadOrder'
 import RadiusButton from '../widget/radiusBtn'
+import styles from './styles';
 
 var naviga
 
-import styles from './styles';
-
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
 
     _backClick = () => {
         naviga.navigate('DrawerOpen');
@@ -33,7 +28,8 @@ export default class HomeScreen extends React.Component {
             keyboardShouldPersistTaps={false} //点击输入法意外的区域，输入法退出
         >
             ....
-        </ScrollView>*/}
+        </ScrollView>*/
+        }
 
         return (
             <View style={{flexDirection: 'column'}}>
@@ -125,13 +121,13 @@ export default class HomeScreen extends React.Component {
                         <View style={{
                             flex: 3, backgroundColor: '#f15b35', justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }} onPress={Alert.alert('红色的')}>
                             <Text style={{color: '#FFF', fontSize: 18}}>虚拟景区</Text>
                         </View>
                         <View style={{
                             flex: 2, backgroundColor: '#ecba0d', marginTop: 12, justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }} onPress={Alert.alert('黄色的')}>
                             <Text style={{color: '#FFF', fontSize: 18}}>巡更管理</Text>
                         </View>
                     </View>
@@ -140,13 +136,13 @@ export default class HomeScreen extends React.Component {
                         <View style={{
                             flex: 2, backgroundColor: '#7fb41b', justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }} onPress={Alert.alert('绿色的')}>
                             <Text style={{color: '#FFF', fontSize: 18}}>工单管理</Text>
                         </View>
                         <View style={{
                             flex: 3, backgroundColor: '#46bbfa', marginTop: 12, justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }} onPress={Alert.alert('蓝色的')}>
                             <Text style={{color: '#FFF', fontSize: 18}}>事件上报</Text>
                         </View>
                     </View>
@@ -159,3 +155,12 @@ export default class HomeScreen extends React.Component {
     }
 
 }
+
+const index = StackNavigator({
+    Home: {screen: HomeScreen},
+    Upload: {screen: UploadScreen},
+});
+
+export default index
+
+
