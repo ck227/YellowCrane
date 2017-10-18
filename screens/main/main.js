@@ -9,16 +9,18 @@ import {
     TouchableOpacity,
     NativeModules
 } from 'react-native';
-import {DrawerNavigator} from 'react-navigation';
+import {DrawerNavigator, StackNavigator} from 'react-navigation';
 import HomeScreen from '../home/home'
 import ContactScreen from '../contact/contact'
+import UploadScreen from '../order/uploadOrder'
 import SenicScreen from '../senic/senic'
 import MyScreen from '../my/my'
 import styles from './styles';
 
+
 const activityStarter = NativeModules.ActivityStarter;
 
-export default class MainScreen extends Component {
+class MainScreen extends Component {
 
     //主界面的侧滑框架
     static navigationOptions = {
@@ -135,6 +137,23 @@ const SideBarView = ({navigation}) => (
     </ScrollView>
 )
 
+// const HomeConst = StackNavigator({
+//         Home: {
+//             screen: HomeScreen
+//         },
+//         Upload: {
+//             screen: UploadScreen
+//         }
+//     },
+//     {
+//         navigationOptions: {
+//             drawerLabel: 'home',
+//             header : null,
+//             banner: '首页'
+//         }
+//     }
+// );
+
 const HomeConst = ({navigation}) => (
     <HomeScreen banner={'首页'} navigation={navigation}/>
 );
@@ -166,7 +185,7 @@ MyConst.navigationOptions = {
 const Main = DrawerNavigator(
     {
         Home: {
-            screen: HomeConst
+            screen: HomeConst,
         },
         Content: {
             screen: ContactConst
@@ -188,6 +207,20 @@ const Main = DrawerNavigator(
         inactiveBackgroundColor: '#242b30',
     },
 )
+
+
+const SimpleAPP = StackNavigator(
+    {
+        DamnHome: {
+            screen: MainScreen
+        },
+        DamnUpload: {
+            screen: UploadScreen
+        }
+    })
+;
+
+export default SimpleAPP
 
 
 
