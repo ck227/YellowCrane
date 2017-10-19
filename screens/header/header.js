@@ -1,8 +1,6 @@
-
-import React from 'react'
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
-
+import {Text, View, Image, TouchableOpacity} from 'react-native'
 import styles from './styles';
+import React from 'react'
 
 export default class Header extends React.Component {
 

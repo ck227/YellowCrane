@@ -1,23 +1,12 @@
-import React from 'react';
+import {Text, View, Image, TouchableOpacity, Alert} from 'react-native'
+import styles from './styles';
+import React from 'react'
 
-import {
-    StyleSheet,
-    View,
-    Image,
-    Text
-} from 'react-native';
-import {StackNavigator} from 'react-navigation';
-import Header from '../header/header'
 
 export default class HomeScreen extends React.Component {
 
-    _backClick = () => {
-        naviga.navigate('DrawerOpen');
-    }
-
-    constructor(props) {
-        super(props);
-        naviga = this.props.navigation
+    static navigationOptions = {
+        header: null,
     }
 
     render() {
@@ -32,9 +21,21 @@ export default class HomeScreen extends React.Component {
         }
 
         return (
-            <View style={{flexDirection: 'column'}}>
-                <Header showBack='false' title={this.props.banner} backFunc={this._backClick.bind(this)}/>
+            <View>
+                <View style={styles.header}>
 
+                    <TouchableOpacity
+                        style={[styles.width]}
+                        onPress={() => this.props.navigation.goBack()}>
+                        <Image style={styles.backImg} source={(require("../../assets/images/arrowLeft.png"))}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.title}>
+                        <Text style={styles.titleText} numberOfLines={1}>
+                            事件上报
+                        </Text>
+                    </View>
+                </View>
             </View>
         );
     }

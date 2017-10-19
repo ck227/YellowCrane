@@ -139,10 +139,10 @@ class LoginScreen extends React.Component {
 
 }
 
-const index = StackNavigator({
+const Index = StackNavigator({
     Login: {screen: LoginScreen},
     Main: {screen: MainScreen},
 });
 
-export default index
+export default Index
 

@@ -212,10 +212,15 @@ const Main = DrawerNavigator(
 const SimpleAPP = StackNavigator(
     {
         DamnHome: {
-            screen: MainScreen
+            screen: Main
         },
         DamnUpload: {
             screen: UploadScreen
+        }
+    },
+    {
+        navigationOptions: {
+            header: null
         }
     })
 ;

@@ -1,13 +1,8 @@
 import React from 'react';
 
-import {Image, Text, View, Alert} from 'react-native';
-import {StackNavigator} from 'react-navigation';
+import {Image, Text, View, Alert, TouchableHighlight} from 'react-native';
 import Header from '../header/header'
-import UploadScreen from '../order/uploadOrder'
 import Container from './container'
-import RadiusButton from '../widget/radiusBtn'
-import styles from './styles';
-
 
 export default class HomeScreen extends React.Component {
 
@@ -18,23 +13,15 @@ export default class HomeScreen extends React.Component {
     render() {
 
         return (
-            <View style={{flexDirection: 'column'}}>
+            <View style={{flex: 1, flexDirection: 'column'}}>
                 <Header showBack='false' title={this.props.banner} backFunc={this._backClick.bind(this)}/>
-                <Text>what the fuck</Text>
-                <Index/>
+                <Container navigation={this.props.navigation}/>
             </View>
         );
     }
-
 }
 
-const Index = StackNavigator({
-    Home: {screen: Container},
-    Upload: {screen: UploadScreen},
-});
 
-
-// HomeScreen.router = Index.router;
 
 
 
