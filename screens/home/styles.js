@@ -2,10 +2,10 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     banner: {
-        height: 200,
+        height: 180,
     },
     bannerImg: {
-        height: 200,
+        height: 180,
     },
     redButton: {
         height: 40,

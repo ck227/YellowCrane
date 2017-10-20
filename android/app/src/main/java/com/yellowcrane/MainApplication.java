@@ -3,6 +3,7 @@ package com.yellowcrane;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -27,6 +28,9 @@ public class MainApplication extends Application implements ReactApplication {
             return Arrays.<ReactPackage>asList(
                     new ActivityStarterReactPackage(),//这里加是什么干嘛的呢，RN调native界面
                     new MainReactPackage(),
+            new ImagePickerPackage(),
+            // OR if you want to customize dialog style  // new ImagePickerPackage(R.style.my_dialog_style)
+
             new CookieManagerPackage()
             );
         }
