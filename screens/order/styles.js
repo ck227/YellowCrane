@@ -1,4 +1,4 @@
-import { StyleSheet,PixelRatio } from 'react-native';
+import {StyleSheet, PixelRatio} from 'react-native';
 
 export default StyleSheet.create({
     header: {
@@ -34,10 +34,9 @@ export default StyleSheet.create({
 
     },
 
-
     container: {
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#f5f5f5'
     },
     avatarContainer: {
         borderColor: '#9B9B9B',
@@ -48,5 +47,11 @@ export default StyleSheet.create({
     avatar: {
         width: 90,
         height: 90
+    },
+    photo: {
+        width: 90,
+        height: 90,
+        marginRight: 4,
+        marginBottom: 4
     }
 });

@@ -2,6 +2,7 @@ import {Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
 import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
+import Video from 'react-native-video';
 
 export default class UploadOrderScreen extends React.Component {
 
@@ -11,8 +12,12 @@ export default class UploadOrderScreen extends React.Component {
 
     state = {
         avatarSource: null,
-        videoSource: null
+        videoSource: null,
+
+        uploading: false,
+        images: [],
     };
+
 
     selectPhotoTapped() {
         const options = {
@@ -47,9 +52,12 @@ export default class UploadOrderScreen extends React.Component {
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let images = this.state.images;
+                images.push(source);
 
                 this.setState({
-                    avatarSource: source
+                    avatarSource: source,
+                    images: images
                 });
             }
         });
@@ -115,8 +123,8 @@ export default class UploadOrderScreen extends React.Component {
 
                 <View style={styles.container}>
 
-                    <View style={{flexDirection: 'row', padding: 16}}>
-                        <Text style={{color: '#3a3a3a', fontSize: 16}}>事件类型</Text>
+                    <View style={{flexDirection: 'row', padding: 16, backgroundColor: 'white'}}>
+                        <Text style={{color: '#282828', fontSize: 16}}>事件类型</Text>
                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={{color: '#838383', marginLeft: 24, fontSize: 14}}>一般事件</Text>
                             <Image style={{height: 16, width: 16}}
@@ -124,42 +132,151 @@ export default class UploadOrderScreen extends React.Component {
                         </View>
                     </View>
 
-                    <View style={{backgroundColor: '#838383', height: 0.5}}/>
-
-                    <Text style={{color: '#3a3a3a', fontSize: 16, marginTop: 12, marginLeft: 16}}>事件描述</Text>
+                    <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
 
                     <TextInput
                         style={{
                             color: '#838383',
-                            height: 60,
-                            marginTop: 8,
-                            marginLeft: 14,
-                            marginRight: 14,
+                            height: 80,
+                            paddingTop: 8,
+                            paddingLeft: 14,
+                            paddingRight: 14,
                             textAlignVertical: 'top',
+                            backgroundColor: 'white',
                         }}
+                        underlineColorAndroid="transparent"
                         numberOfLines={2}
-                        placeholder='请输入用户名'
+                        placeholder='请描述事件详情'
                         multiline={true}
                         onChangeText={(text) => this.setState({account: text})}
                     />
+                    <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
 
-                    <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                        <View style={[styles.avatar, styles.avatarContainer, {margin: 16}]}>
-                            {this.state.avatarSource === null ? <Text>上传图片</Text> :
-                                <Image style={styles.avatar} source={this.state.avatarSource}/>
+                    <Text style={{
+                        color: '#838383',
+                        fontSize: 14,
+                        backgroundColor: 'white',
+                        paddingTop: 12,
+                        paddingLeft: 12
+                    }}>（图片，选填，请提供相关图片）</Text>
+
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap', padding: 16, backgroundColor: 'white'}}>
+                        {this.state.images.map((image) => {
+                            return <Image key={_generateUUID()} source={{uri: image.uri}} style={styles.photo}/>
+                        })}
+                        {this.state.images.length == 3 ?
+                            null
+                            : <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+                                <Image style={styles.avatar} source={(require("../../assets/images/addPhoto.png"))}/>
+                            </TouchableOpacity>}
+                    </View>
+
+                    <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
+
+
+                    <View style={{flexDirection: 'row', paddingTop: 8,backgroundColor:'white'}}>
+
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
+                            <Text style={{
+                                color: '#838383',
+                                fontSize: 14,
+                                backgroundColor: 'white',
+                            }}>（音频）</Text>
+
+                            {
+                                this.state.videoSource == null ?
+                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
+                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                        <Image style={styles.avatar}
+                                               source={(require("../../assets/images/audio.png"))}/>
+                                    </TouchableOpacity>
+                                    :
+
+                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
+                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                        <Video
+                                            source={{uri: this.state.videoSource}} // Can be a URL or a local file.
+                                            rate={0.0}                   // 0 is paused, 1 is normal.
+                                            volume={0.0}                 // 0 is muted, 1 is normal.
+                                            muted={true}                // Mutes the audio entirely.
+                                            paused={false}               // Pauses playback entirely.
+                                            resizeMode="cover"           // Fill the whole screen at aspect ratio.
+                                            repeat={true}                // Repeat forever.
+                                            playInBackground={false}     // Audio continues to play when aentering background.
+                                            playWhenInactive={false}     // [iOS] Video continues to play whcontrol or notification center are shown.
+                                            onLoadStart={this.loadStart} // Callback when video starts to load
+                                            onLoad={this.setDuration}    // Callback when video loads
+                                            onProgress={this.setTime}    // Callback every ~250ms with currentTime
+                                            onEnd={this.onEnd}           // Callback when playback finishes
+                                            onError={this.videoError}    // Callback when video cannot be loaded
+                                            style={{
+                                                height: 90,
+                                                width: 90,
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+
                             }
                         </View>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
-                        <View style={[styles.avatar, styles.avatarContainer, {marginLeft: 16}]}>
-                            <Text>上传视频</Text>
+
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
+                            <Text style={{
+                                color: '#838383',
+                                fontSize: 14,
+                                backgroundColor: 'white',
+                            }}>（视频）</Text>
+
+                            {
+                                this.state.videoSource == null ?
+                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
+                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                        <Image style={styles.avatar}
+                                               source={(require("../../assets/images/video.png"))}/>
+                                    </TouchableOpacity>
+                                    :
+
+                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
+                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                        <Video
+                                            source={{uri: this.state.videoSource}} // Can be a URL or a local file.
+                                            rate={0.0}                   // 0 is paused, 1 is normal.
+                                            volume={0.0}                 // 0 is muted, 1 is normal.
+                                            muted={true}                // Mutes the audio entirely.
+                                            paused={false}               // Pauses playback entirely.
+                                            resizeMode="cover"           // Fill the whole screen at aspect ratio.
+                                            repeat={true}                // Repeat forever.
+                                            playInBackground={false}     // Audio continues to play when aentering background.
+                                            playWhenInactive={false}     // [iOS] Video continues to play whcontrol or notification center are shown.
+                                            onLoadStart={this.loadStart} // Callback when video starts to load
+                                            onLoad={this.setDuration}    // Callback when video loads
+                                            onProgress={this.setTime}    // Callback every ~250ms with currentTime
+                                            onEnd={this.onEnd}           // Callback when playback finishes
+                                            onError={this.videoError}    // Callback when video cannot be loaded
+                                            style={{
+                                                height: 90,
+                                                width: 90,
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+
+                            }
+                        </View>
+
+                    </View>
+
+                    <TouchableOpacity style={{
+                        backgroundColor: '#e84a22',
+                        justifyContent: 'center',
+                        paddingTop: 12,
+                        paddingBottom: 12,
+                        margin: 16
+                    }} >
+                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{fontSize: 18, color: 'white'}}>提交</Text>
                         </View>
                     </TouchableOpacity>
 
-                    {this.state.videoSource &&
-                    <Text style={{margin: 8, textAlign: 'center'}}>{this.state.videoSource}</Text>
-                    }
                 </View>
 
             </View>
@@ -167,4 +284,14 @@ export default class UploadOrderScreen extends React.Component {
     }
 
 }
+
+function _generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+};
 

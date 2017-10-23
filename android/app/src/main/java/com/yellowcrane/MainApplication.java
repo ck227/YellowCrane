@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.psykar.cookiemanager.CookieManagerPackage;
+import com.brentvatne.react.ReactVideoPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -28,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
             return Arrays.<ReactPackage>asList(
                     new ActivityStarterReactPackage(),//这里加是什么干嘛的呢，RN调native界面
                     new MainReactPackage(),
-            new ImagePickerPackage(),
+                    new ReactVideoPackage(),//视频
+            new ImagePickerPackage(),//图片选择
             // OR if you want to customize dialog style  // new ImagePickerPackage(R.style.my_dialog_style)
 
             new CookieManagerPackage()
