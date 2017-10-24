@@ -6,13 +6,17 @@ import {
     TextInput,
     TouchableOpacity,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
+    NativeModules
 } from 'react-native';
 import styles from './styles';
 
 import MainScreen from '../main/main'
 import {StackNavigator} from 'react-navigation';
 import {Spinner} from '../widget/Spinner';
+
+// const loginModule = NativeModules.LoginHX;
+const activityStarter = NativeModules.ActivityStarter;
 
 class LoginScreen extends React.Component {
 
@@ -34,12 +38,16 @@ class LoginScreen extends React.Component {
     }
 
     async _loginFromApi() {
+
         if (this.state.account == '') {
             return Alert.alert('账号不能为空')
         }
         if (this.state.password == '') {
             return Alert.alert('密码不能为空')
         }
+        // Alert.alert('请求发出去了')
+        activityStarter.Login2HX(this.state.account,this.state.password)
+
         const {account, password} = this.state;
         this.state = {
             error: '',

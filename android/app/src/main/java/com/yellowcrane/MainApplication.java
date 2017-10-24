@@ -28,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new ActivityStarterReactPackage(),//这里加是什么干嘛的呢，RN调native界面
+                    new LoginHXReactPackage(),//这里加是什么干嘛的呢，RN调native界面
                     new MainReactPackage(),
                     new ReactVideoPackage(),//视频
             new ImagePickerPackage(),//图片选择
