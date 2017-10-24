@@ -1,5 +1,5 @@
 rootProject.name = 'YellowCrane'
-include ':react-native-image-picker'
+include ':react-native-image-picker', ':easeui', ':redpacketlibrary'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 include ':react-native-cookies'
 project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookies/android')
@@ -7,3 +7,11 @@ project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '
 include ':app'
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android')
+
+//include ':easeui'
+//project(':easeui').projectDir = new File('../easeui/easeui')
+//
+//include ':redpacketlibrary'
+//project(':redpacketlibrary').projectDir = new File('../redpacketlibrary/redpacketlibrary')
+
+
