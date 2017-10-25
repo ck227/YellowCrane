@@ -26,6 +26,7 @@ class IndexScreen extends Component {
         };
         this.timer = setTimeout(
             () => {
+
                 if (this.state.loggedIn) {
                     this.props.navigation.navigate('Main')
                 } else {

@@ -10,6 +10,8 @@ export default class HomeScreen extends React.Component {
         this.props.navigation.navigate('DrawerOpen')
     }
 
+
+
     render() {
 
         return (

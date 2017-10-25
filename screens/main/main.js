@@ -28,44 +28,6 @@ class MainScreen extends Component {
         header: null,
     };
 
-    /*constructor(props) {
-        super(props);
-        this.state = {
-            userName: '',
-            headImg: ''
-        };
-    }*/
-
-    /*componentWillMount() {
-
-        global.storage.load({
-            key: 'loginState',
-            // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-            autoSync: false,
-
-            // syncInBackground(默认为true)意味着如果数据过期，
-            // 在调用sync方法的同时先返回已经过期的数据。
-            // 设置为false的话，则等待sync方法提供的最新数据(当然会需要更多时间)。
-            syncInBackground: true,
-
-            // 你还可以给sync方法传递额外的参数
-            syncParams: {
-                extraFetchOptions: {
-                    // 各种参数
-                },
-                someFlag: true,
-            },
-        }).then(ret => {
-            Alert.alert(ret.userName)
-            this.setState({
-                userName: ret.userName,
-                headImg: ret.headImg
-            });
-        }).catch(err => {
-            Alert.alert('err')
-        })
-    }*/
-
     render() {
         return (
             <View style={styles.container}>
@@ -77,12 +39,13 @@ class MainScreen extends Component {
 }
 
 const SideBarScreen = ({navigation}) => (
-    <SideBarView banner={'这里可以传值到侧滑'} navigation={navigation}/>
+    <SideBarView
+        banner={'这里可以传值到侧滑'}
+        navigation={navigation}
+    />
 );
 
 const SideBarView = ({navigation}) => (
-
-
 
     <ScrollView style={styles.bg}>
 
@@ -92,7 +55,7 @@ const SideBarView = ({navigation}) => (
                    source={(require("../../assets/images/sideBarBg2.jpg"))}>
                 <View style={styles.title}>
                     <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
-                    <Text style={styles.text}>{this.navigation.props.banner}</Text>
+                    <Text style={styles.text}>fuck</Text>
                 </View>
             </Image>
 
