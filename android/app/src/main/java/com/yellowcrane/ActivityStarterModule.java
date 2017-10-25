@@ -62,7 +62,7 @@ public class ActivityStarterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     void Login2HX(String userName, String passWord) {
-        Toast.makeText(getReactApplicationContext(), "开始登录啦", Toast.LENGTH_SHORT).show();
+
 
         // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
         // close it before login to make sure DemoDB not overlap

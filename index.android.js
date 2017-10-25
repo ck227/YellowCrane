@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Image, View} from 'react-native';
+import {AppRegistry, StyleSheet, Image, View,Alert} from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import MainScreen from './screens/main/main'
 import LoginScreen from './screens/login/login'
@@ -38,7 +38,7 @@ class IndexScreen extends Component {
     }
 
     componentWillMount() {
-        let isAuthenticated;
+        // let isAuthenticated;
 
         global.storage.load({
             key: 'loginState',
@@ -65,9 +65,10 @@ class IndexScreen extends Component {
             // 也没有办法“变成”同步返回
             // 你也可以使用“看似”同步的async/await语法
 
-            console.log(ret.userid);
+            // console.log(ret.userid);
 
             // this.setState({ user: ret });
+
 
             this.setState({
                 loggedIn: true,
@@ -77,7 +78,7 @@ class IndexScreen extends Component {
         }).catch(err => {
             //如果没有找到数据且没有sync方法，
             //或者有其他异常，则在catch中返回
-            console.warn(err.message);
+            // console.warn('没找到那个啥参数呗');
             switch (err.name) {
                 case 'NotFoundError':
                     // TODO;

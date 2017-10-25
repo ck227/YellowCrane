@@ -17,8 +17,9 @@ import SenicScreen from '../senic/senic'
 import MyScreen from '../my/my'
 import styles from './styles';
 
-
 const activityStarter = NativeModules.ActivityStarter;
+
+import storage from '../widget/Storage'
 
 class MainScreen extends Component {
 
@@ -27,9 +28,43 @@ class MainScreen extends Component {
         header: null,
     };
 
-    constructor(props) {
+    /*constructor(props) {
         super(props);
-    }
+        this.state = {
+            userName: '',
+            headImg: ''
+        };
+    }*/
+
+    /*componentWillMount() {
+
+        global.storage.load({
+            key: 'loginState',
+            // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
+            autoSync: false,
+
+            // syncInBackground(默认为true)意味着如果数据过期，
+            // 在调用sync方法的同时先返回已经过期的数据。
+            // 设置为false的话，则等待sync方法提供的最新数据(当然会需要更多时间)。
+            syncInBackground: true,
+
+            // 你还可以给sync方法传递额外的参数
+            syncParams: {
+                extraFetchOptions: {
+                    // 各种参数
+                },
+                someFlag: true,
+            },
+        }).then(ret => {
+            Alert.alert(ret.userName)
+            this.setState({
+                userName: ret.userName,
+                headImg: ret.headImg
+            });
+        }).catch(err => {
+            Alert.alert('err')
+        })
+    }*/
 
     render() {
         return (
@@ -46,45 +81,22 @@ const SideBarScreen = ({navigation}) => (
 );
 
 const SideBarView = ({navigation}) => (
+
+
+
     <ScrollView style={styles.bg}>
 
         <View>
+
             <Image style={{height: 150, justifyContent: 'center'}}
                    source={(require("../../assets/images/sideBarBg2.jpg"))}>
                 <View style={styles.title}>
                     <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
-                    <Text style={styles.text}>请登录</Text>
+                    <Text style={styles.text}>{this.navigation.props.banner}</Text>
                 </View>
             </Image>
 
         </View>
-
-        {/*中间的内容*/}
-        {/*<View style={styles.centerItem}>
-            <TouchableOpacity style={styles.centerItems} onPress={() => navigation.navigate('contact')}>
-                <View style={{alignItems: 'center'}}>
-                    <Image style={styles.itemsIcon} source={(require("../../assets/images/collect.png"))}/>
-                    <Text style={styles.itemsText}>收藏</Text>
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.centerItems} onPress={() => navigation.navigate('senic')}>
-                <View style={{alignItems: 'center'}}>
-                    <Image style={styles.itemsIcon} source={(require("../../assets/images/alarm.png"))}/>
-                    <Text style={styles.itemsText}>消息</Text>
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.centerItems} onPress={() => navigation.navigate('my')}>
-                <View style={{alignItems: 'center'}}>
-                    <Image style={styles.itemsIcon} source={(require("../../assets/images/setting.png"))}/>
-                    <Text style={styles.itemsText}>设置</Text>
-                </View>
-            </TouchableOpacity>
-
-        </View>*/}
-
-        {/*下面的内容列表 //, {id: '16'}*/}
 
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <View style={styles.contentItem}>
@@ -136,23 +148,6 @@ const SideBarView = ({navigation}) => (
         {/*</View>*/}
     </ScrollView>
 )
-
-// const HomeConst = StackNavigator({
-//         Home: {
-//             screen: HomeScreen
-//         },
-//         Upload: {
-//             screen: UploadScreen
-//         }
-//     },
-//     {
-//         navigationOptions: {
-//             drawerLabel: 'home',
-//             header : null,
-//             banner: '首页'
-//         }
-//     }
-// );
 
 const HomeConst = ({navigation}) => (
     <HomeScreen banner={'首页'} navigation={navigation}/>

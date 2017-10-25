@@ -46,7 +46,7 @@ class LoginScreen extends React.Component {
             return Alert.alert('密码不能为空')
         }
         // Alert.alert('请求发出去了')
-        activityStarter.Login2HX(this.state.account,this.state.password)
+        activityStarter.Login2HX(this.state.account, this.state.password)
 
         const {account, password} = this.state;
         this.state = {
@@ -54,7 +54,7 @@ class LoginScreen extends React.Component {
             loading: true,
         };
         try {
-            let response = await fetch(`http://www.lizhixin.cn/lizhixinInterface/user/login.html?loginName=${account}&passWord=${password}`);
+            let response = await fetch(`http://192.168.100.114:8080/ycranetower/loginAct/login.html?loginName=${account}&password=${password}`);
             // {"obj":{"loginName":"18507104251","userId":39,"userName":"","userStatus":1},"code":0,"msg":"登录成功"}
             let responseJson = await response.json()
 
@@ -64,21 +64,22 @@ class LoginScreen extends React.Component {
                 loading: false,
                 error: ''
             });
-            if (responseJson.code == 0) {
+            if (responseJson.code == 200) {
                 // Alert.alert('登录成功')
                 //登录成功保存数据
                 global.storage.save({
                     key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
                     data: {
-                        userid: responseJson.obj.userId,
-                        //这里以后可以添加头像
+                        userName: responseJson.data.userName,
+                        loginName: responseJson.data.loginName,
+                        headImg: responseJson.data.headImg
                     },
                     expires: null
                 });
                 //这里跳转到main界面
                 this.props.navigation.navigate('Main')
             } else {
-                Alert.alert(responseJson.msg)
+                Alert.alert(responseJson.message)
             }
         } catch (error) {
             console.error(error);
@@ -97,7 +98,7 @@ class LoginScreen extends React.Component {
                         <View style={styles.title}>
                             <TouchableOpacity underlayColor={'transparent'}>
                                 <Text style={styles.titleText} numberOfLines={1}>
-                                    请登录
+                                    黄鹤楼
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -105,17 +106,24 @@ class LoginScreen extends React.Component {
                 </View>
 
                 <TextInput
-                    style={{height: 60, marginTop: 32, marginLeft: 16, marginRight: 16}} placeholder='请输入用户名'
+                    style={{height: 60, marginTop: 32, marginLeft: 16, marginRight: 16}}
+                    placeholder='请输入密码'
                     label="account"
                     onChangeText={(text) => this.setState({account: text})}
                     value={this.state.account}
+                    underlineColorAndroid="transparent"
+                    multiline={true}
+                    defaultValue="SEC-admin2"
                 />
 
                 <TextInput
-                    style={{height: 60, marginTop: 8, marginLeft: 16, marginRight: 16}} placeholder='请输入密码'
+                    style={{height: 60, marginTop: 8, marginLeft: 16, marginRight: 16}}
+                    placeholder='请输入密码'
                     label="password"
                     onChangeText={(text) => this.setState({password: text})}
                     value={this.state.password}
+                    underlineColorAndroid="transparent"
+                    defaultValue="1234556"
                 />
                 {this.renderButton()}
                 {this.renderDialog()}

@@ -1,4 +1,4 @@
-import { StyleSheet,Platform } from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 export default StyleSheet.create({
     header: {
@@ -13,7 +13,6 @@ export default StyleSheet.create({
     width48: {
         width: 60
     },
-
     backImg: {
         width: 24,
         height: 24,

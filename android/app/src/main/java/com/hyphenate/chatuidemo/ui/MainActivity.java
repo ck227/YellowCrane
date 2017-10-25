@@ -477,14 +477,14 @@ public class MainActivity extends BaseActivity {
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			moveTaskToBack(false);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
+	}*/
 
 	private android.app.AlertDialog.Builder exceptionBuilder;
 	private boolean isExceptionDialogShow =  false;
