@@ -2,6 +2,7 @@ package com.yellowcrane;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chatuidemo.DemoApplication;
 import com.hyphenate.chatuidemo.DemoHelper;
 import com.hyphenate.chatuidemo.db.DemoDBManager;
+import com.hyphenate.chatuidemo.ui.*;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
@@ -50,6 +52,15 @@ public class ActivityStarterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    void navigateToIM() {
+        Activity activity = getCurrentActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, com.hyphenate.chatuidemo.ui.MainActivity.class);
+            activity.startActivity(intent);
+        }
+    }
+
+    @ReactMethod
     void Login2HX(String userName, String passWord) {
         Toast.makeText(getReactApplicationContext(), "开始登录啦", Toast.LENGTH_SHORT).show();
 
@@ -67,7 +78,11 @@ public class ActivityStarterModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onSuccess() {
-                Toast.makeText(getReactApplicationContext(), "登录聊天成功", Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getReactApplicationContext(), "登录聊天成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 // ** manually load all local groups and conversation
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
@@ -91,12 +106,12 @@ public class ActivityStarterModule extends ReactContextBaseJavaModule {
             @Override
             public void onError(final int code, final String message) {
 //                Log.d(TAG, "login: onError: " + code);
-                Toast.makeText(getReactApplicationContext(), "登录聊天失败" + message, Toast.LENGTH_SHORT).show();
 
                 runOnUiThread(new Runnable() {
                     public void run() {
 //                        Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + message,
 //                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getReactApplicationContext(), "登录聊天失败" + message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

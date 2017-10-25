@@ -97,7 +97,7 @@ const SideBarView = ({navigation}) => (
 
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Content')}>
+        <TouchableOpacity onPress={() => activityStarter.navigateToIM()}>
             <View style={styles.contentItem2}>
                 <Image style={styles.contentIcon} source={(require("../../assets/images/contact.png"))}/>
                 <Text style={styles.contentText}>通讯录</Text>
