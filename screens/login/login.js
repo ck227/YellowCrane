@@ -49,24 +49,21 @@ class LoginScreen extends React.Component {
         activityStarter.Login2HX(this.state.account, this.state.password)
 
         const {account, password} = this.state;
-        this.state = {
-            error: '',
+        this.setState({
             loading: true,
-        };
+        });
         try {
             let response = await fetch(`http://192.168.100.114:8080/ycranetower/loginAct/login.html?loginName=${account}&password=${password}`);
             // {"obj":{"loginName":"18507104251","userId":39,"userName":"","userStatus":1},"code":0,"msg":"登录成功"}
             let responseJson = await response.json()
 
-            this.setState({
-                account: '',
-                password: '',
-                loading: false,
-                error: ''
-            });
             if (responseJson.code == 200) {
-                // Alert.alert('登录成功')
-                //登录成功保存数据
+                this.setState({
+                    account: '',
+                    password: '',
+                    loading: false,
+                    error: ''
+                });
                 global.storage.save({
                     key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
                     data: {
@@ -79,6 +76,9 @@ class LoginScreen extends React.Component {
                 //这里跳转到main界面
                 this.props.navigation.navigate('Main')
             } else {
+                this.setState({
+                    loading: false
+                });
                 Alert.alert(responseJson.message)
             }
         } catch (error) {
@@ -107,13 +107,13 @@ class LoginScreen extends React.Component {
 
                 <TextInput
                     style={{height: 60, marginTop: 32, marginLeft: 16, marginRight: 16}}
-                    placeholder='请输入密码'
+                    placeholder='请输入账号'
                     label="account"
                     onChangeText={(text) => this.setState({account: text})}
                     value={this.state.account}
                     underlineColorAndroid="transparent"
                     multiline={true}
-                    defaultValue="SEC-admin2"
+                    defaultValue='SEC-admin2'
                 />
 
                 <TextInput
@@ -123,7 +123,7 @@ class LoginScreen extends React.Component {
                     onChangeText={(text) => this.setState({password: text})}
                     value={this.state.password}
                     underlineColorAndroid="transparent"
-                    defaultValue="1234556"
+                    defaultValue='1234556'
                 />
                 {this.renderButton()}
                 {this.renderDialog()}
