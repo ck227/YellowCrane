@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Image, Text, View, Alert, TouchableOpacity} from 'react-native';
+import {Image, Text, View, Alert, TouchableOpacity, TouchableNativeFeedback} from 'react-native';
 // import {StackNavigator} from 'react-navigation';
 // import Header from '../header/header'
 // import UploadScreen from '../order/uploadOrder'
@@ -119,7 +119,7 @@ export default class Container extends React.Component {
                             alignItems: 'center'
                         }} onPress={() => this.props.navigation.navigate('DamnUpload')}>
 
-                                <Text style={{color: '#FFF', fontSize: 18}}>事件上报</Text>
+                            <Text style={{color: '#FFF', fontSize: 18}}>事件上报</Text>
 
                         </TouchableOpacity>
                     </View>

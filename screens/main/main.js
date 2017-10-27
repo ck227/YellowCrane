@@ -100,7 +100,7 @@ class SideBarView2 extends Component {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Content3')}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Content3')}>
                     <View style={styles.contentItem2}>
                         <Image style={styles.contentIcon} source={(require("../../assets/images/my.png"))}/>
                         <Text style={styles.contentText}>个人中心</Text>

@@ -4,19 +4,74 @@ import {Text, View, Image, TouchableOpacity} from 'react-native'
 import Header from '../header/header'
 import RadiusButton from '../widget/radiusBtn'
 import styles from './styles';
+import storage from '../widget/Storage'
 
-var naviga
+// var naviga
 
 export default class My extends React.Component {
 
     _backClick = () => {
-        naviga.navigate('DrawerOpen');
+        this.props.navigation.navigate('DrawerOpen');
     }
 
     constructor(props) {
         super(props);
-        naviga = this.props.navigation
+        this.state = {
+            userName: '',
+            headImg: ''
+        };
     }
+
+    componentWillMount() {
+        global.storage.load({
+            key: 'loginState',
+            autoSync: false,
+            syncInBackground: true,
+            syncParams: {
+                extraFetchOptions: {
+                    // 各种参数
+                },
+                someFlag: true,
+            },
+        }).then(ret => {
+            this.setState({
+                userName: ret.userName,
+                headImg: ret.headImg
+            });
+        }).catch(err => {
+            switch (err.name) {
+                case 'NotFoundError':
+                    this.setState({
+                        userName: '',
+                        headImg: ''
+                    });
+                    break;
+                case 'ExpiredError':
+                    // TODO
+                    this.setState({
+                        userName: '',
+                        headImg: ''
+                    });
+                    break;
+            }
+        })
+
+        navigator.geolocation.watchPosition(
+            (position) => {
+
+                let longitude = JSON.stringify(position.coords.longitude);//精度
+                let latitude = JSON.stringify(position.coords.latitude);//纬度
+                console.log(longitude + latitude);
+
+                // this.fetchData(longitude, latitude);
+            },
+            (error) => {
+                console.log(error);
+            },
+            {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000}
+        );
+    }
+
 
     render() {
         return (
@@ -26,7 +81,7 @@ export default class My extends React.Component {
                        source={(require("../../assets/images/sideBarBg2.jpg"))}>
                     <View style={styles.title}>
                         <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
-                        <Text style={styles.text}>请登录</Text>
+                        <Text style={styles.text}>{this.state.userName}</Text>
                     </View>
                 </Image>
 
@@ -129,7 +184,7 @@ export default class My extends React.Component {
 
                 </View>
 
-                <View style={{backgroundColor: '#969696', height: 0.5,marginTop: 36}}/>
+                <View style={{backgroundColor: '#969696', height: 0.5, marginTop: 36}}/>
                 <TouchableOpacity style={{
                     backgroundColor: 'white',
                     justifyContent: 'center',
