@@ -39,11 +39,86 @@ class MainScreen extends Component {
 }
 
 const SideBarScreen = ({navigation}) => (
-    <SideBarView
-        banner={'这里可以传值到侧滑'}
+    <SideBarView2
+        banner='这里可以传值到侧滑'
+        // banner2={navigation.state.params.userName}
         navigation={navigation}
     />
 );
+
+class SideBarView2 extends Component {
+    render() {
+        return (
+            <ScrollView style={styles.bg}>
+
+                <View>
+
+                    <Image style={{height: 150, justifyContent: 'center'}}
+                           source={(require("../../assets/images/sideBarBg2.jpg"))}>
+                        <View style={styles.title}>
+                            <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
+                            <Text style={styles.text}></Text>
+                        </View>
+                    </Image>
+
+                </View>
+
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+                    <View style={styles.contentItem}>
+                        <Image style={styles.contentIcon} source={(require("../../assets/images/home.png"))}/>
+                        <Text style={styles.contentText}>首页</Text>
+                        <View style={styles.arrowParent}>
+                            <Image style={styles.contentArrow}
+                                   source={(require("../../assets/images/arrow_right.png"))}/>
+                        </View>
+                    </View>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => activityStarter.navigateToIM()}>
+                    <View style={styles.contentItem2}>
+                        <Image style={styles.contentIcon} source={(require("../../assets/images/contact.png"))}/>
+                        <Text style={styles.contentText}>通讯录</Text>
+                        <View style={styles.arrowParent}>
+                            <Image style={styles.contentArrow}
+                                   source={(require("../../assets/images/arrow_right.png"))}/>
+                        </View>
+                    </View>
+
+                </TouchableOpacity>
+
+
+                {/*<TouchableOpacity onPress={() => navigation.navigate('Content2')}>*/}
+                <TouchableOpacity onPress={() => activityStarter.navigateToMap()}>
+                    <View style={styles.contentItem2}>
+                        <Image style={styles.contentIcon} source={(require("../../assets/images/senic.png"))}/>
+                        <Text style={styles.contentText}>景区导航</Text>
+                        <View style={styles.arrowParent}>
+                            <Image style={styles.contentArrow}
+                                   source={(require("../../assets/images/arrow_right.png"))}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('Content3')}>
+                    <View style={styles.contentItem2}>
+                        <Image style={styles.contentIcon} source={(require("../../assets/images/my.png"))}/>
+                        <Text style={styles.contentText}>个人中心</Text>
+                        <View style={styles.arrowParent}>
+                            <Image style={styles.contentArrow}
+                                   source={(require("../../assets/images/arrow_right.png"))}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+
+                {/*内容列表结束*/}
+
+                {/*</View>*/}
+            </ScrollView>
+        )
+    }
+}
 
 const SideBarView = ({navigation}) => (
 
@@ -55,7 +130,7 @@ const SideBarView = ({navigation}) => (
                    source={(require("../../assets/images/sideBarBg2.jpg"))}>
                 <View style={styles.title}>
                     <Image style={styles.cat} source={(require("../../assets/images/cat.jpg"))}/>
-                    <Text style={styles.text}>fuck</Text>
+                    <Text style={styles.text}>{this.props.banner}</Text>
                 </View>
             </Image>
 
@@ -155,8 +230,13 @@ const Main = DrawerNavigator(
             screen: MyConst
         }
     }, {
-        contentComponent: SideBarScreen,
         header: null,
+        contentComponent: SideBarScreen,
+        // contentComponent: props => <SideBarView2 navigation={this.navigation}/>,
+        // navigationOptions: ({navigation}) => ({
+        //     userName: '123',
+        //     headImg: `{navigation.state.params.headImg}`,
+        // }),
         drawerWidth: 270,
         drawerPosition: 'left',
         inactiveTintColor: '#000000',
@@ -170,7 +250,11 @@ const Main = DrawerNavigator(
 const SimpleAPP = StackNavigator(
     {
         DamnHome: {
-            screen: Main
+            screen: Main,
+            navigationOptions: ({navigation}) => ({
+                userName: `{navigation.state.params.userName}`,
+                headImg: `{navigation.state.params.headImg}`,
+            }),
         },
         DamnUpload: {
             screen: UploadScreen

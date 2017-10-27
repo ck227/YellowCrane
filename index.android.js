@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Image, View,Alert} from 'react-native';
+import {AppRegistry, StyleSheet, Image, View, Alert} from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import MainScreen from './screens/main/main'
 import LoginScreen from './screens/login/login'
@@ -23,16 +23,18 @@ class IndexScreen extends Component {
         this.state = {
             loggedIn: false,
             loadedCookie: false,
+            userName: '',
+            headImg: ''
         };
         this.timer = setTimeout(
             () => {
 
                 if (this.state.loggedIn) {
-                    this.props.navigation.navigate('Main')
+                    // Alert.alert(this.state.userName)
+                    this.props.navigation.navigate('Main', {userName: this.state.userName}, {headImg: this.state.headImg})
                 } else {
                     this.props.navigation.navigate('Login')
                 }
-
             },
             500
         );
@@ -73,7 +75,9 @@ class IndexScreen extends Component {
 
             this.setState({
                 loggedIn: true,
-                loadedCookie: true
+                loadedCookie: true,
+                userName: ret.userName,
+                headImg: ret.headImg
             });
 
         }).catch(err => {
