@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
+import {Text, View, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
 import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
@@ -174,7 +174,7 @@ export default class UploadOrderScreen extends React.Component {
                     <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
 
 
-                    <View style={{flexDirection: 'row', paddingTop: 8,backgroundColor:'white'}}>
+                    <View style={{flexDirection: 'row', paddingTop: 8, backgroundColor: 'white'}}>
 
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
                             <Text style={{
@@ -242,7 +242,7 @@ export default class UploadOrderScreen extends React.Component {
                                             source={{uri: this.state.videoSource}} // Can be a URL or a local file.
                                             rate={0.0}                   // 0 is paused, 1 is normal.
                                             volume={0.0}                 // 0 is muted, 1 is normal.
-                                            muted={true}                // Mutes the audio entirely.
+                                            muted={true}                 // Mutes the audio entirely.
                                             paused={false}               // Pauses playback entirely.
                                             resizeMode="cover"           // Fill the whole screen at aspect ratio.
                                             repeat={true}                // Repeat forever.
@@ -271,7 +271,7 @@ export default class UploadOrderScreen extends React.Component {
                         paddingTop: 12,
                         paddingBottom: 12,
                         margin: 16
-                    }} >
+                    }} onPress={this._uploadFromApi.bind(this)}>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{fontSize: 18, color: 'white'}}>提交</Text>
                         </View>
@@ -281,6 +281,69 @@ export default class UploadOrderScreen extends React.Component {
 
             </View>
         );
+    }
+
+    async _uploadFromApi() {
+
+        // http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx?op=getComBookListByWhere
+
+        //这里改成请求webservice
+        try {
+            let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    // 'Content-Type': 'text/xml',
+                    'charset': 'utf-8',
+                    'Content-Length': 'length',
+                    // 'SOAPAction': 'http://tempuri.org/getComBookListByWhere',
+                },
+                // body: JSON.stringify({
+                //     qid: '',
+                //     qname: '',
+                //     depid: '0',
+                // })
+                body: 'depid=0'
+            });
+            // {"obj":{"loginName":"18507104251","userId":39,"userName":"","userStatus":1},"code":0,"msg":"登录成功"}
+            let responseJson = await response.text()
+
+            // Alert.alert(responseJson.toString())
+            console.warn(responseJson.toString());
+
+            //
+            // if (responseJson.code == 200) {
+            //     Alert.alert('666666')
+            //     this.setState({
+            //         account: '',
+            //         password: '',
+            //         loading: false,
+            //         error: ''
+            //     });
+            //     global.storage.save({
+            //         key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
+            //         data: {
+            //             userName: responseJson.data.userName,
+            //             loginName: responseJson.data.loginName,
+            //             headImg: responseJson.data.headImg
+            //         },
+            //         expires: null
+            //     });
+            //     //这里跳转到main界面
+            //     this.props.navigation.navigate('Main')
+            // } else {
+            //     this.setState({
+            //         loading: false
+            //     });
+            //     Alert.alert(responseJson.message)
+            // }
+        } catch (error) {
+            console.error(error);
+            this.setState({
+                loading: false,
+            });
+            Alert.alert('登录失败')
+        }
     }
 
 }
@@ -294,4 +357,6 @@ function _generateUUID() {
     });
     return uuid;
 };
+
+
 
