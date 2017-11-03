@@ -235,7 +235,6 @@ export default class UploadOrderScreen extends React.Component {
                                             }}
                                         />
                                     </TouchableOpacity>
-
                             }
                         </View>
 
@@ -260,13 +259,19 @@ export default class UploadOrderScreen extends React.Component {
     }
 
     async _uploadFromApi() {
+        if (this.state.title == '') {
+            return Alert.alert('请输入标题')
+        }
+        if (this.state.desc == '') {
+            return Alert.alert('请输入描述')
+        }
         try {
             let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'DEVID=15527021408&x=114.00&y=30.00&type=0&imgNames=imgPath&VideoNames=videoNames&desc=desc&title=title'
+                body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=imgPath&VideoNames=videoNames&desc=${this.state.desc}&title=${this.state.title}`
             });
             let responseJson = await response.text()
             console.warn(responseJson.toString());
