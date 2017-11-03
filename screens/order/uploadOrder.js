@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
+import {Text, View, Image, TouchableOpacity, TextInput, Alert, Picker} from 'react-native'
 import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
@@ -13,6 +13,7 @@ export default class UploadOrderScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            type: 0,
             avatarSource: null,
             videoSource: null,
             uploading: false,
@@ -96,16 +97,6 @@ export default class UploadOrderScreen extends React.Component {
 
 
     render() {
-
-        {/*<ScrollView
-            contentContainerStyle={{flex:1}} //非常重要，让ScrollView的子元素占满整个区域
-            keyboardDismissMode='on-drag' //拖动界面输入法退出
-            keyboardShouldPersistTaps={false} //点击输入法意外的区域，输入法退出
-        >
-            ....
-        </ScrollView>*/
-        }
-
         return (
             <View style={{flex: 1}}>
                 <View style={styles.header}>
@@ -124,13 +115,30 @@ export default class UploadOrderScreen extends React.Component {
 
                 <View style={styles.container}>
 
-                    <View style={{flexDirection: 'row', padding: 16, backgroundColor: 'white'}}>
-                        <Text style={{color: '#282828', fontSize: 16}}>事件类型</Text>
-                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                            <Text style={{color: '#838383', marginLeft: 24, fontSize: 14}}>一般事件</Text>
-                            <Image style={{height: 16, width: 16}}
-                                   source={(require("../../assets/images/arrowDown.png"))}/>
-                        </View>
+                    {/*日常上报:0*/}
+                    {/*交通事故上报:1 地址灾害上报:2*/}
+                    {/*暴雨山洪灾害上报:3 游客意外伤害上报:4*/}
+                    {/*景区内游客拥堵上报:5*/}
+                    {/*食物中毒上报:6 消防应急上报:7*/}
+                    {/*黄金周及节假日上报:8*/}
+                    {/*其他上报 9*/}
+
+                    <View style={{flexDirection: 'row', paddingTop: 12,paddingBottom:12, paddingLeft:8,backgroundColor: 'white'}}>
+                        <Picker
+                            style={{width: 180}}
+                            selectedValue={this.state.type}
+                            onValueChange={(lang) => this.setState({type: lang})}>
+                            <Picker.Item label="日常上报" value="0"/>
+                            <Picker.Item label="交通事故上报" value="1"/>
+                            <Picker.Item label="地址灾害上报" value="2"/>
+                            <Picker.Item label="暴雨山洪灾害上报" value="3"/>
+                            <Picker.Item label="游客意外伤害上报" value="4"/>
+                            <Picker.Item label="景区内游客拥堵上报" value="5"/>
+                            <Picker.Item label="食物中毒上报" value="6"/>
+                            <Picker.Item label="消防应急上报" value="7"/>
+                            <Picker.Item label="黄金周及节假日上报" value="8"/>
+                            <Picker.Item label="其他上报" value="9"/>
+                        </Picker>
                     </View>
 
                     <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
