@@ -14,9 +14,10 @@ export default class UploadOrderScreen extends React.Component {
         super(props);
         this.state = {
             type: 0,
+            title: '',
             desc: '',
-            avatarSource: null,
-            videoSource: null,
+            // avatarSource: null,
+            videoSource: '',
             uploading: false,
             images: []
         };
@@ -52,14 +53,9 @@ export default class UploadOrderScreen extends React.Component {
             }
             else {
                 let source = {uri: response.uri};
-
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 let images = this.state.images;
                 images.push(source);
-
                 this.setState({
-                    avatarSource: source,
                     images: images
                 });
             }
@@ -95,7 +91,6 @@ export default class UploadOrderScreen extends React.Component {
             }
         });
     }
-
 
     render() {
         return (
@@ -145,6 +140,24 @@ export default class UploadOrderScreen extends React.Component {
                     <TextInput
                         style={{
                             color: '#838383',
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                            paddingLeft: 14,
+                            paddingRight: 14,
+                            textAlignVertical: 'top',
+                            backgroundColor: 'white',
+                        }}
+                        underlineColorAndroid="transparent"
+                        placeholder='请输入事件标题'
+                        multiline={true}
+                        onChangeText={(text) => this.setState({title: text})}
+                    />
+
+                    <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
+
+                    <TextInput
+                        style={{
+                            color: '#838383',
                             height: 80,
                             paddingTop: 8,
                             paddingLeft: 14,
@@ -181,69 +194,26 @@ export default class UploadOrderScreen extends React.Component {
 
                     <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
 
-
                     <View style={{flexDirection: 'row', paddingTop: 8, backgroundColor: 'white'}}>
 
-                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
+                        <View style={{backgroundColor: 'white'}}>
                             <Text style={{
                                 color: '#838383',
                                 fontSize: 14,
+                                paddingLeft: 12,
                                 backgroundColor: 'white',
-                            }}>（音频）</Text>
+                            }}>（请选择视频）</Text>
 
                             {
-                                this.state.videoSource == null ?
+                                this.state.videoSource == '' ?
                                     <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
-                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                                      style={{marginTop: 8, marginBottom: 8, paddingLeft: 16}}>
                                         <Image style={styles.avatar}
-                                               source={(require("../../assets/images/audio.png"))}/>
+                                               source={(require("../../assets/images/addPhoto.png"))}/>
                                     </TouchableOpacity>
                                     :
-
                                     <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
-                                                      style={{marginTop: 8, marginBottom: 8}}>
-                                        <Video
-                                            source={{uri: this.state.videoSource}} // Can be a URL or a local file.
-                                            rate={0.0}                   // 0 is paused, 1 is normal.
-                                            volume={0.0}                 // 0 is muted, 1 is normal.
-                                            muted={true}                // Mutes the audio entirely.
-                                            paused={false}               // Pauses playback entirely.
-                                            resizeMode="cover"           // Fill the whole screen at aspect ratio.
-                                            repeat={true}                // Repeat forever.
-                                            playInBackground={false}     // Audio continues to play when aentering background.
-                                            playWhenInactive={false}     // [iOS] Video continues to play whcontrol or notification center are shown.
-                                            onLoadStart={this.loadStart} // Callback when video starts to load
-                                            onLoad={this.setDuration}    // Callback when video loads
-                                            onProgress={this.setTime}    // Callback every ~250ms with currentTime
-                                            onEnd={this.onEnd}           // Callback when playback finishes
-                                            onError={this.videoError}    // Callback when video cannot be loaded
-                                            style={{
-                                                height: 90,
-                                                width: 90,
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                            }
-                        </View>
-
-                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
-                            <Text style={{
-                                color: '#838383',
-                                fontSize: 14,
-                                backgroundColor: 'white',
-                            }}>（视频）</Text>
-
-                            {
-                                this.state.videoSource == null ?
-                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
-                                                      style={{marginTop: 8, marginBottom: 8}}>
-                                        <Image style={styles.avatar}
-                                               source={(require("../../assets/images/video.png"))}/>
-                                    </TouchableOpacity>
-                                    :
-
-                                    <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}
-                                                      style={{marginTop: 8, marginBottom: 8}}>
+                                                      style={{marginTop: 8, marginBottom: 8, paddingLeft: 16}}>
                                         <Video
                                             source={{uri: this.state.videoSource}} // Can be a URL or a local file.
                                             rate={0.0}                   // 0 is paused, 1 is normal.
@@ -290,10 +260,6 @@ export default class UploadOrderScreen extends React.Component {
     }
 
     async _uploadFromApi() {
-
-        // http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx?op=getComBookListByWhere
-
-        //这里改成请求webservice
         try {
             let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
@@ -303,40 +269,13 @@ export default class UploadOrderScreen extends React.Component {
                 body: 'DEVID=15527021408&x=114.00&y=30.00&type=0&imgNames=imgPath&VideoNames=videoNames&desc=desc&title=title'
             });
             let responseJson = await response.text()
-
             console.warn(responseJson.toString());
-
-            // if (responseJson.code == 200) {
-            //     Alert.alert('666666')
-            //     this.setState({
-            //         account: '',
-            //         password: '',
-            //         loading: false,
-            //         error: ''
-            //     });
-            //     global.storage.save({
-            //         key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
-            //         data: {
-            //             userName: responseJson.data.userName,
-            //             loginName: responseJson.data.loginName,
-            //             headImg: responseJson.data.headImg
-            //         },
-            //         expires: null
-            //     });
-            //     //这里跳转到main界面
-            //     this.props.navigation.navigate('Main')
-            // } else {
-            //     this.setState({
-            //         loading: false
-            //     });
-            //     Alert.alert(responseJson.message)
-            // }
         } catch (error) {
             console.error(error);
             this.setState({
                 loading: false,
             });
-            Alert.alert('登录失败')
+            Alert.alert('上传失败')
         }
     }
 
