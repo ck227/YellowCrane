@@ -14,6 +14,7 @@ export default class UploadOrderScreen extends React.Component {
         super(props);
         this.state = {
             type: 0,
+            desc: '',
             avatarSource: null,
             videoSource: null,
             uploading: false,
@@ -115,15 +116,13 @@ export default class UploadOrderScreen extends React.Component {
 
                 <View style={styles.container}>
 
-                    {/*日常上报:0*/}
-                    {/*交通事故上报:1 地址灾害上报:2*/}
-                    {/*暴雨山洪灾害上报:3 游客意外伤害上报:4*/}
-                    {/*景区内游客拥堵上报:5*/}
-                    {/*食物中毒上报:6 消防应急上报:7*/}
-                    {/*黄金周及节假日上报:8*/}
-                    {/*其他上报 9*/}
-
-                    <View style={{flexDirection: 'row', paddingTop: 12,paddingBottom:12, paddingLeft:8,backgroundColor: 'white'}}>
+                    <View style={{
+                        flexDirection: 'row',
+                        paddingTop: 12,
+                        paddingBottom: 12,
+                        paddingLeft: 8,
+                        backgroundColor: 'white'
+                    }}>
                         <Picker
                             style={{width: 180}}
                             selectedValue={this.state.type}
@@ -157,7 +156,7 @@ export default class UploadOrderScreen extends React.Component {
                         numberOfLines={2}
                         placeholder='请描述事件详情'
                         multiline={true}
-                        onChangeText={(text) => this.setState({account: text})}
+                        onChangeText={(text) => this.setState({desc: text})}
                     />
                     <View style={{backgroundColor: 'lightgray', height: 0.5}}/>
 
@@ -224,10 +223,8 @@ export default class UploadOrderScreen extends React.Component {
                                             }}
                                         />
                                     </TouchableOpacity>
-
                             }
                         </View>
-
 
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
                             <Text style={{
