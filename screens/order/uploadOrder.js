@@ -10,14 +10,15 @@ export default class UploadOrderScreen extends React.Component {
         header: null,
     }
 
-    state = {
-        avatarSource: null,
-        videoSource: null,
-
-        uploading: false,
-        images: [],
-    };
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            avatarSource: null,
+            videoSource: null,
+            uploading: false,
+            images: []
+        };
+    }
 
     selectPhotoTapped() {
         const options = {
@@ -289,29 +290,17 @@ export default class UploadOrderScreen extends React.Component {
 
         //这里改成请求webservice
         try {
-            let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx', {
+            let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    // 'Content-Type': 'text/xml',
-                    'charset': 'utf-8',
-                    'Content-Length': 'length',
-                    // 'SOAPAction': 'http://tempuri.org/getComBookListByWhere',
                 },
-                // body: JSON.stringify({
-                //     qid: '',
-                //     qname: '',
-                //     depid: '0',
-                // })
-                body: 'depid=0'
+                body: 'DEVID=15527021408&x=114.00&y=30.00&type=0&imgNames=imgPath&VideoNames=videoNames&desc=desc&title=title'
             });
-            // {"obj":{"loginName":"18507104251","userId":39,"userName":"","userStatus":1},"code":0,"msg":"登录成功"}
             let responseJson = await response.text()
 
-            // Alert.alert(responseJson.toString())
             console.warn(responseJson.toString());
 
-            //
             // if (responseJson.code == 200) {
             //     Alert.alert('666666')
             //     this.setState({
