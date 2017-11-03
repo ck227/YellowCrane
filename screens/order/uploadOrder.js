@@ -3,6 +3,8 @@ import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
+// import parseString from 'xml2js';
+// var parseString = require('react-native-xml2js').parseString;
 
 export default class UploadOrderScreen extends React.Component {
 
@@ -274,7 +276,10 @@ export default class UploadOrderScreen extends React.Component {
                 body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=imgPath&VideoNames=videoNames&desc=${this.state.desc}&title=${this.state.title}`
             });
             let responseJson = await response.text()
-            console.warn(responseJson.toString());
+            // parseString(responseJson, {trim: true}, function (err, result) {
+            //     console.warn(result);
+            // });
+            console.warn(responseJson);
         } catch (error) {
             console.error(error);
             this.setState({
