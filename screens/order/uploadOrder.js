@@ -276,6 +276,7 @@ export default class UploadOrderScreen extends React.Component {
                 body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=imgPath&VideoNames=videoNames&desc=${this.state.desc}&title=${this.state.title}`
             });
             let responseJson = await response.text()
+
             // parseString(responseJson, {trim: true}, function (err, result) {
             //     console.warn(result);
             // });
