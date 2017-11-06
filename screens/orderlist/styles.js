@@ -1,7 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 
-
 export default StyleSheet.create({
     width: {
         width: 60
@@ -37,6 +36,27 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
 
+    },
+
+    item: {
+        flex: 1,
+        flexDirection: 'column',
+        paddingTop: 12,
+        paddingBottom: 12,
+        paddingLeft: 16,
+        paddingRight: 16,
+        backgroundColor:'white'
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        paddingLeft: 12,
+        paddingRight: 12,
+        paddingTop: 8,
+        paddingBottom: 8
     },
 
 });

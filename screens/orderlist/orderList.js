@@ -42,21 +42,41 @@ class Container extends React.Component {
     }
 }
 
+const ContentConst = ({navigation}) => (
+    <OrdersScreen id='0' navigation={navigation}/>
+);
+
+const ContentConst2 = ({navigation}) => (
+    <OrdersScreen id='1' navigation={navigation}/>
+);
+
+const ContentConst3 = ({navigation}) => (
+    <OrdersScreen id='2' navigation={navigation}/>
+);
+
+const ContentConst4 = ({navigation}) => (
+    <OrdersScreen id='3' navigation={navigation}/>
+);
+
+const ContentConst5 = ({navigation}) => (
+    <OrdersScreen id='4' navigation={navigation}/>
+);
+
 const MyApp = TabNavigator({
     上报: {
-        screen: OrdersScreen,
+        screen: ContentConst,
     },
     受理: {
-        screen: OrdersScreen,
+        screen: ContentConst2,
     },
     派遣: {
-        screen: OrdersScreen,
+        screen: ContentConst3,
     },
     回执: {
-        screen: OrdersScreen,
+        screen: ContentConst4,
     },
     办结: {
-        screen: OrdersScreen,
+        screen: ContentConst5,
     },
 }, {
     tabBarPosition: 'top',
@@ -69,7 +89,7 @@ const MyApp = TabNavigator({
         style: {
             backgroundColor: '#fcf9f8',
         },
-        indicatorStyle:{
+        indicatorStyle: {
             backgroundColor: '#e84a22',
         },
 
