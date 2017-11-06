@@ -14,6 +14,7 @@ import HomeScreen from '../home/home'
 import ContactScreen from '../contact/contact'
 import UploadScreen from '../order/uploadOrder'
 import OrderListScreen from '../orderlist/orderList'
+// import OrderDetailScreen from '../orderlist/orderDetail'
 import SenicScreen from '../senic/senic'
 import MyScreen from '../my/my'
 import styles from './styles';
