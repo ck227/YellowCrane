@@ -107,13 +107,16 @@ export default class Container extends React.Component {
                     </View>
 
                     <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
-                        <View style={{
+
+                        <TouchableOpacity style={{
                             flex: 2, backgroundColor: '#7fb41b', justifyContent: 'center',
                             alignItems: 'center'
-                        }}>
+                        }} onPress={() => this.props.navigation.navigate('OrderListScreen')}>
+
                             <Text style={{color: '#FFF', fontSize: 18}}>工单管理</Text>
-                        </View>
-                        {/*onPress={this.props.navigation.navigate('DamnUpload')}*/}
+
+                        </TouchableOpacity>
+
                         <TouchableOpacity style={{
                             flex: 3, backgroundColor: '#46bbfa', marginTop: 12, justifyContent: 'center',
                             alignItems: 'center'

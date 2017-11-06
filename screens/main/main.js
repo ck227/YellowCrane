@@ -13,6 +13,7 @@ import {DrawerNavigator, StackNavigator} from 'react-navigation';
 import HomeScreen from '../home/home'
 import ContactScreen from '../contact/contact'
 import UploadScreen from '../order/uploadOrder'
+import OrderListScreen from '../orderlist/orderList'
 import SenicScreen from '../senic/senic'
 import MyScreen from '../my/my'
 import styles from './styles';
@@ -258,6 +259,9 @@ const SimpleAPP = StackNavigator(
         },
         DamnUpload: {
             screen: UploadScreen
+        },
+        OrderListScreen: {
+            screen: OrderListScreen
         }
     },
     {

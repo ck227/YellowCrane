@@ -4,22 +4,13 @@ import React from 'react'
 import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
 
-// var parseString = require('react-native-xml2js').parseString;
-
-// var fs = require('fs'),
-// xml2js = require('xml2js');
-// var parser = new xml2js.Parser();
-
-// import parseString from 'xml2js';
-
-// import parseString from 'react-native-xml2js';
 var parseString = require('react-native-xml2js').parseString;
 
 export default class UploadOrderScreen extends React.Component {
 
-    static navigationOptions = {
-        header: null,
-    }
+    // static navigationOptions = {
+    //     header: null,
+    // }
 
     constructor(props) {
         super(props);
