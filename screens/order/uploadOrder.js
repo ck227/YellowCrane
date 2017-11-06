@@ -3,8 +3,17 @@ import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
-// import parseString from 'xml2js';
+
 // var parseString = require('react-native-xml2js').parseString;
+
+// var fs = require('fs'),
+// xml2js = require('xml2js');
+// var parser = new xml2js.Parser();
+
+// import parseString from 'xml2js';
+
+// import parseString from 'react-native-xml2js';
+var parseString = require('react-native-xml2js').parseString;
 
 export default class UploadOrderScreen extends React.Component {
 
@@ -275,12 +284,16 @@ export default class UploadOrderScreen extends React.Component {
                 },
                 body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=imgPath&VideoNames=videoNames&desc=${this.state.desc}&title=${this.state.title}`
             });
-            let responseJson = await response.text()
+            var responseJson = await response.text()
 
-            // parseString(responseJson, {trim: true}, function (err, result) {
-            //     console.warn(result);
-            // });
-            console.warn(responseJson);
+            parseString(responseJson, function (err, result) {
+                if (result.boolean) {
+                    Alert.alert('上传成功')
+                } else {
+                    Alert.alert('上传失败')
+                }
+            });
+
         } catch (error) {
             console.error(error);
             this.setState({
