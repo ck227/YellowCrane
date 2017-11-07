@@ -22,6 +22,7 @@ import styles from './styles';
 const activityStarter = NativeModules.ActivityStarter;
 
 import storage from '../widget/Storage'
+import OrderDetailScreen from "../orderlist/orderDetail";
 
 class MainScreen extends Component {
 
@@ -248,7 +249,6 @@ const Main = DrawerNavigator(
     },
 )
 
-
 const SimpleAPP = StackNavigator(
     {
         DamnHome: {
@@ -257,15 +257,18 @@ const SimpleAPP = StackNavigator(
                 userName: `{navigation.state.params.userName}`,
                 headImg: `{navigation.state.params.headImg}`,
             }),
+            navigationOptions: {
+                header: null
+            }
         },
         DamnUpload: {
-            screen: UploadScreen
+            screen: UploadScreen,
+
         },
         OrderListScreen: {
-            screen: OrderListScreen
+            screen: OrderListScreen,
         }
-    },
-    {
+    }, {
         navigationOptions: {
             header: null
         }

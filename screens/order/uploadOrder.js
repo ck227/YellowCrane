@@ -8,17 +8,12 @@ var parseString = require('react-native-xml2js').parseString;
 
 export default class UploadOrderScreen extends React.Component {
 
-    // static navigationOptions = {
-    //     header: null,
-    // }
-
     constructor(props) {
         super(props);
         this.state = {
             type: 0,
             title: '',
             desc: '',
-            // avatarSource: null,
             videoSource: '',
             uploading: false,
             images: []

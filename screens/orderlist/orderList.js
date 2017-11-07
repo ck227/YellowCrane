@@ -1,46 +1,9 @@
-import {Text, View, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
+import {Platform} from 'react-native'
 import React from 'react'
 import styles from './styles';
 import OrdersScreen from './orders'
-import {TabNavigator} from 'react-navigation';
-
-export default class OrderListScreen extends React.Component {
-
-    render() {
-        return (
-            <View style={{flex: 1}}>
-
-                <View style={styles.header}>
-                    <TouchableOpacity
-                        style={[styles.width]}
-                        onPress={() => this.props.navigation.goBack()}>
-                        <Image style={styles.backImg} source={(require("../../assets/images/arrowLeft.png"))}/>
-                    </TouchableOpacity>
-
-                    <View style={styles.title}>
-                        <Text style={styles.titleText} numberOfLines={1}>
-                            工单管理
-                        </Text>
-                    </View>
-                </View>
-
-                <Container/>
-
-            </View>
-        );
-    }
-
-}
-
-class Container extends React.Component {
-    render() {
-        return (
-            <View style={{flex: 1}}>
-                <MyApp/>
-            </View>
-        );
-    }
-}
+import OrderDetailScreen from '../orderlist/orderDetail'
+import {TabNavigator, StackNavigator} from 'react-navigation';
 
 const ContentConst = ({navigation}) => (
     <OrdersScreen id='0' navigation={navigation}/>
@@ -92,8 +55,48 @@ const MyApp = TabNavigator({
         indicatorStyle: {
             backgroundColor: '#e84a22',
         },
-
     },
 
 });
+
+export default fuckit = StackNavigator(
+    {
+        OrderListScreen: {
+            screen: MyApp,
+            navigationOptions: {
+                headerTitle: "工单管理",
+                headerTintColor: 'white',
+                headerMode: 'screen',
+                mode: Platform.OS === 'ios' ? 'modal' : 'card',
+                headerStyle: {
+                    backgroundColor: '#e84a22',
+                    elevation: 0,//去掉下方阴影
+                },
+                headerTitleStyle: {
+                    alignSelf: 'center'
+                },
+                gesturesEnabled: true,
+
+            }
+        },
+        OrderDetailScreen: {
+            screen: OrderDetailScreen,
+            navigationOptions: {
+                headerTitle: '工单详情',
+                headerTintColor: 'white',
+                headerMode: 'screen',
+                ode: Platform.OS === 'ios' ? 'modal' : 'card',
+                headerStyle: {
+                    backgroundColor: '#e84a22',
+                    elevation: 0,//去掉下方阴影
+                },
+            }
+        },
+    }, {
+        navigationOptions: {
+            // header: null,
+        }
+    })
+;
+
 

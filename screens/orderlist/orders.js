@@ -1,8 +1,6 @@
 import {Text, View, Image, TouchableOpacity, TextInput, Alert, ActivityIndicator, FlatList} from 'react-native'
 import React from 'react'
 import styles from './styles';
-import {DrawerNavigator, StackNavigator} from 'react-navigation';
-import OrderDetailScreen from './orderDetail'
 
 var parseString = require('react-native-xml2js').parseString;
 
@@ -18,7 +16,6 @@ export default class OrdersScreen extends React.Component {
             refreshing: false
         };
         id = this.props.id
-        naviga = this.props.navigation
     }
 
     componentDidMount() {
@@ -85,7 +82,7 @@ export default class OrdersScreen extends React.Component {
     };
 
     _onItemClick = () => {
-        naviga.navigate('OrderDetailScreen')
+        this.props.navigation.navigate('OrderDetailScreen')
     };
 
     render() {
