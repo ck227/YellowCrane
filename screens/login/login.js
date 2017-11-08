@@ -53,7 +53,7 @@ class LoginScreen extends React.Component {
             loading: true,
         });
         try {
-            let response = await fetch(`http://192.168.100.114:8080/ycranetower/loginAct/login.html?loginName=${account}&password=${password}`);
+            let response = await fetch(`http://118.190.43.124:8580/ycranetower/loginAct/login.html?loginName=${account}&password=${password}`);
             // {"obj":{"loginName":"18507104251","userId":39,"userName":"","userStatus":1},"code":0,"msg":"登录成功"}
             let responseJson = await response.json()
 

@@ -1,23 +1,102 @@
-import {Text, View, Image, TouchableOpacity, TextInput, Alert, Picker} from 'react-native'
+import {
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    TextInput,
+    Alert,
+    ActivityIndicator,
+    Picker,
+    NativeModules,
+    DeviceEventEmitter,
+    Modal
+} from 'react-native'
 import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
 
 var parseString = require('react-native-xml2js').parseString;
+var RNUploader = NativeModules.RNUploader;
 
 export default class UploadOrderScreen extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            type: 0,
+            type: '日常上报',//这里的是上报的内容
             title: '',
             desc: '',
             videoSource: '',
-            uploading: false,
-            images: []
+
+            images: [],
+            imagePath: [],
+
+            uploading: false,//这里是上传图片需要的
+            showUploadModal: false,
+            uploadProgress: 0,
+            uploadTotal: 0,
+            uploadWritten: 0,
+            uploadStatus: undefined,
+            cancelled: false,
         };
+    }
+
+    componentDidMount() {
+        DeviceEventEmitter.addListener('RNUploaderProgress', (data) => {
+            let bytesWritten = data.totalBytesWritten;
+            let bytesTotal = data.totalBytesExpectedToWrite;
+            let progress = data.progress;
+            this.setState({uploadProgress: progress, uploadTotal: bytesTotal, uploadWritten: bytesWritten});
+        });
+    }
+
+    uploadProgressModal() {
+        let uploadProgress;
+
+        if (this.state.cancelled) {
+            uploadProgress = (
+                <View style={{margin: 5, alignItems: 'center',}}>
+                    <Text style={{marginBottom: 10,}}>
+                        Upload Cancelled
+                    </Text>
+                    <TouchableOpacity style={styles.button} onPress={this._closeUploadModal.bind(this)}>
+                        <Text>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        } else if (!this.state.uploading && this.state.uploadStatus) {
+            uploadProgress = (
+                <View style={{margin: 5, alignItems: 'center',}}>
+                    <Text style={{marginBottom: 10,}}>
+                        Upload complete with status: {this.state.uploadStatus}
+                    </Text>
+                    <TouchableOpacity style={styles.button} onPress={this._closeUploadModal.bind(this)}>
+                        <Text>{this.state.uploading ? '' : 'Close'}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        } else if (this.state.uploading) {
+            uploadProgress = (
+                <View style={{alignItems: 'center',}}>
+                    <Text style={styles.title2}>Uploading {this.state.images.length}
+                        Image{this.state.images.length == 1 ? '' : 's'}</Text>
+                    <ActivityIndicator
+                        animating={this.state.animating}
+                        style={[styles.centering, {height: 80}]}
+                        size="large"/>
+                    <Text>{this.state.uploadProgress.toFixed(0)}%</Text>
+                    <Text style={{fontSize: 11, color: 'gray', marginTop: 5,}}>
+                        {( this.state.uploadWritten / 1024 ).toFixed(0)}/{( this.state.uploadTotal / 1024 ).toFixed(0)}
+                        KB
+                    </Text>
+                    <TouchableOpacity style={[styles.button, {marginTop: 5}]} onPress={this._cancelUpload.bind(this)}>
+                        <Text>{'Cancel'}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+        return uploadProgress;
     }
 
     selectPhotoTapped() {
@@ -92,6 +171,7 @@ export default class UploadOrderScreen extends React.Component {
     render() {
         return (
             <View style={{flex: 1}}>
+
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={[styles.width]}
@@ -108,6 +188,16 @@ export default class UploadOrderScreen extends React.Component {
 
                 <View style={styles.container}>
 
+                    <Modal
+                        animationType={'fade'}
+                        transparent={true}
+                        visible={this.state.showUploadModal}
+                        onRequestClose={() => {}}>
+                        <View style={styles.modal}>
+                            {this.uploadProgressModal()}
+                        </View>
+                    </Modal>
+
                     <View style={{
                         flexDirection: 'row',
                         paddingTop: 12,
@@ -119,16 +209,17 @@ export default class UploadOrderScreen extends React.Component {
                             style={{width: 180}}
                             selectedValue={this.state.type}
                             onValueChange={(lang) => this.setState({type: lang})}>
-                            <Picker.Item label="日常上报" value="0"/>
-                            <Picker.Item label="交通事故上报" value="1"/>
-                            <Picker.Item label="地址灾害上报" value="2"/>
-                            <Picker.Item label="暴雨山洪灾害上报" value="3"/>
-                            <Picker.Item label="游客意外伤害上报" value="4"/>
-                            <Picker.Item label="景区内游客拥堵上报" value="5"/>
-                            <Picker.Item label="食物中毒上报" value="6"/>
-                            <Picker.Item label="消防应急上报" value="7"/>
-                            <Picker.Item label="黄金周及节假日上报" value="8"/>
-                            <Picker.Item label="其他上报" value="9"/>
+                            <Picker.Item label="日常上报" value="日常上报"/>
+                            <Picker.Item label="交通事故上报" value="交通事故上报"/>
+                            <Picker.Item label="地址灾害上报" value="地址灾害上报"/>
+                            <Picker.Item label="暴雨山洪灾害上报" value="暴雨山洪灾害上报"/>
+                            <Picker.Item label="游客意外伤害上报" value="游客意外伤害上报"/>
+                            <Picker.Item label="景区内游客拥堵上报" value="景区内游客拥堵上报"/>
+                            <Picker.Item label="食物中毒上报" value="食物中毒上报"/>
+                            <Picker.Item label="消防应急上报" value="消防应急上报
+                            "/>
+                            <Picker.Item label="黄金周及节假日上报" value="黄金周及节假日上报"/>
+                            <Picker.Item label="其他上报" value="其他上报"/>
                         </Picker>
                     </View>
 
@@ -262,6 +353,29 @@ export default class UploadOrderScreen extends React.Component {
         if (this.state.desc == '') {
             return Alert.alert('请输入描述')
         }
+        //如果有图片，在这里请上传
+        // try {
+        // if (this.state.images.length > 0) {
+        //     const data = new FormData();
+        //     this.state.images.forEach((photo) => {
+        //         data.append('photo', {
+        //             uri: photo.uri,
+        //             type: 'image/jpeg', // or photo.type
+        //             name: this.state.images.name
+        //         });
+        //     });
+        //     let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+        //         method: 'POST',
+        //         body: data
+        //     });
+        //     var responseJson = await response.text()
+        //     console.warn(responseJson + '231412434324')
+        // }
+
+        this._uploadImages()
+
+
+        //上传完成后再调下面的内容
         try {
             let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
@@ -289,6 +403,58 @@ export default class UploadOrderScreen extends React.Component {
         }
     }
 
+    //上面的是乱七八糟的上传工单
+    //下面的是乱七八糟的上传图片和视频
+
+    _closeUploadModal() {
+        this.setState({
+            showUploadModal: false,
+            uploadProgress: 0,
+            uploadTotal: 0,
+            uploadWritten: 0,
+            images: [],
+            cancelled: false,
+        });
+    }
+
+    _cancelUpload() {
+        RNUploader.cancel();
+        this.setState({uploading: false, cancelled: true});
+    }
+
+    _uploadImages() {
+
+        let files = this.state.images.map((file) => {
+            return {
+                // name: 'file',
+                filename: _generateUUID + '.png',
+                filepath: file.uri,
+                filetype: 'image/png',
+            }
+        });
+        let opts = {
+            url: 'http://118.190.43.124:8580/ycranetower/UserAct/upload.html',
+            files: files,
+            params: {name: 'file'}
+        };
+
+        this.setState({uploading: true, showUploadModal: true,});
+        RNUploader.upload(opts, (err, res) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            let status = res.status;
+            let responseString = res.data;
+
+            console.log('Upload complete with status ' + status);
+            console.log(responseString);
+            this.setState({uploading: false, uploadStatus: status});
+        });
+
+    }
+
 }
 
 function _generateUUID() {
@@ -300,6 +466,4 @@ function _generateUUID() {
     });
     return uuid;
 };
-
-
 

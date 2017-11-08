@@ -53,5 +53,57 @@ export default StyleSheet.create({
         height: 90,
         marginRight: 4,
         marginBottom: 4
+    },
+    modal: {
+        marginLeft: 50,
+        marginRight:50,
+        marginTop:200,
+        borderWidth: 1,
+        borderColor: '#DDD',
+        padding: 20,
+        borderRadius: 12,
+        backgroundColor: 'lightyellow',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
+    thumbnail: {
+        width: 73,
+        height: 73,
+        borderWidth: 1,
+        borderColor: '#DDD',
+        margin: 5,
+    },
+    modal: {
+        margin: 50,
+        borderWidth: 1,
+        borderColor: '#DDD',
+        padding: 20,
+        borderRadius: 12,
+        backgroundColor: 'lightyellow',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title2: {
+        textAlign: 'center',
+        fontWeight: '500',
+        fontSize: 14,
+    },
+    button: {
+        borderWidth: 1,
+        borderColor: '#CCC',
+        borderRadius: 8,
+        padding: 10,
+        backgroundColor: '#EEE',
+        marginHorizontal: 5,
     }
 });
