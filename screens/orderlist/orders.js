@@ -11,7 +11,7 @@ export default class OrdersScreen extends React.Component {
         this.state = {
             loading: false,
             data: [],
-            page: 0,
+            page: 1,
             error: null,
             refreshing: false
         };
@@ -36,7 +36,7 @@ export default class OrdersScreen extends React.Component {
 
         parseString(responseJson, function (err, result) {
             that.setState({
-                data: page === 0 ? result.ArrayOfSS_JGTEVENT.SS_JGTEVENT : [...that.state.data, ...result.ArrayOfSS_JGTEVENT.SS_JGTEVENT],
+                data: page === 1 ? result.ArrayOfSS_JGTEVENT.SS_JGTEVENT : [...that.state.data, ...result.ArrayOfSS_JGTEVENT.SS_JGTEVENT],
                 error: result.error || null,
                 loading: false,
                 refreshing: false
@@ -47,7 +47,7 @@ export default class OrdersScreen extends React.Component {
     handleRefresh = () => {
         this.setState(
             {
-                page: 0,
+                page: 1,
                 refreshing: true
             },
             () => {
@@ -81,8 +81,10 @@ export default class OrdersScreen extends React.Component {
         );
     };
 
-    _onItemClick = () => {
-        this.props.navigation.navigate('OrderDetailScreen')
+// ,{},{} ,{title: item.EVENT_TITLE},{}
+    _itemClick = (item,index) => {
+        // console.warn(item.EVENT_TYPE)
+        this.props.navigation.navigate('OrderDetailScreen', {type: item.EVENT_TYPE,title: item.EVENT_TITLE,desc:item.EVENT_DESC,imgs:item.EVENT_IMG,video:item.EVENT_VIDEO})
     };
 
     render() {
@@ -91,7 +93,7 @@ export default class OrdersScreen extends React.Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item, index}) => (
-                        <TouchableOpacity onPress={this._onItemClick}>
+                        <TouchableOpacity onPress={this._itemClick.bind(this, item,index)}>
                             <View style={styles.item}>
                                 <View style={{flex: 1, flexDirection: 'row'}}>
                                     <Text style={{color: '#e84a22'}}>{item.EVENT_TITLE}</Text>
