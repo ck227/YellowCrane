@@ -17,7 +17,6 @@ import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
 
 var parseString = require('react-native-xml2js').parseString;
-var RNUploader = NativeModules.RNUploader;
 
 export default class UploadOrderScreen extends React.Component {
 
@@ -32,72 +31,9 @@ export default class UploadOrderScreen extends React.Component {
             images: [],
             imagePath: [],
 
-            uploading: false,//这里是上传图片需要的
-            showUploadModal: false,
-            uploadProgress: 0,
-            uploadTotal: 0,
-            uploadWritten: 0,
-            uploadStatus: undefined,
-            cancelled: false,
         };
     }
 
-    componentDidMount() {
-        DeviceEventEmitter.addListener('RNUploaderProgress', (data) => {
-            let bytesWritten = data.totalBytesWritten;
-            let bytesTotal = data.totalBytesExpectedToWrite;
-            let progress = data.progress;
-            this.setState({uploadProgress: progress, uploadTotal: bytesTotal, uploadWritten: bytesWritten});
-        });
-    }
-
-    uploadProgressModal() {
-        let uploadProgress;
-
-        if (this.state.cancelled) {
-            uploadProgress = (
-                <View style={{margin: 5, alignItems: 'center',}}>
-                    <Text style={{marginBottom: 10,}}>
-                        Upload Cancelled
-                    </Text>
-                    <TouchableOpacity style={styles.button} onPress={this._closeUploadModal.bind(this)}>
-                        <Text>Close</Text>
-                    </TouchableOpacity>
-                </View>
-            );
-        } else if (!this.state.uploading && this.state.uploadStatus) {
-            uploadProgress = (
-                <View style={{margin: 5, alignItems: 'center',}}>
-                    <Text style={{marginBottom: 10,}}>
-                        Upload complete with status: {this.state.uploadStatus}
-                    </Text>
-                    <TouchableOpacity style={styles.button} onPress={this._closeUploadModal.bind(this)}>
-                        <Text>{this.state.uploading ? '' : 'Close'}</Text>
-                    </TouchableOpacity>
-                </View>
-            );
-        } else if (this.state.uploading) {
-            uploadProgress = (
-                <View style={{alignItems: 'center',}}>
-                    <Text style={styles.title2}>Uploading {this.state.images.length}
-                        Image{this.state.images.length == 1 ? '' : 's'}</Text>
-                    <ActivityIndicator
-                        animating={this.state.animating}
-                        style={[styles.centering, {height: 80}]}
-                        size="large"/>
-                    <Text>{this.state.uploadProgress.toFixed(0)}%</Text>
-                    <Text style={{fontSize: 11, color: 'gray', marginTop: 5,}}>
-                        {( this.state.uploadWritten / 1024 ).toFixed(0)}/{( this.state.uploadTotal / 1024 ).toFixed(0)}
-                        KB
-                    </Text>
-                    <TouchableOpacity style={[styles.button, {marginTop: 5}]} onPress={this._cancelUpload.bind(this)}>
-                        <Text>{'Cancel'}</Text>
-                    </TouchableOpacity>
-                </View>
-            );
-        }
-        return uploadProgress;
-    }
 
     selectPhotoTapped() {
         const options = {
@@ -187,16 +123,6 @@ export default class UploadOrderScreen extends React.Component {
                 </View>
 
                 <View style={styles.container}>
-
-                    <Modal
-                        animationType={'fade'}
-                        transparent={true}
-                        visible={this.state.showUploadModal}
-                        onRequestClose={() => {}}>
-                        <View style={styles.modal}>
-                            {this.uploadProgressModal()}
-                        </View>
-                    </Modal>
 
                     <View style={{
                         flexDirection: 'row',
@@ -354,29 +280,11 @@ export default class UploadOrderScreen extends React.Component {
             return Alert.alert('请输入描述')
         }
         //如果有图片，在这里请上传
-        // try {
-        // if (this.state.images.length > 0) {
-        //     const data = new FormData();
-        //     this.state.images.forEach((photo) => {
-        //         data.append('photo', {
-        //             uri: photo.uri,
-        //             type: 'image/jpeg', // or photo.type
-        //             name: this.state.images.name
-        //         });
-        //     });
-        //     let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
-        //         method: 'POST',
-        //         body: data
-        //     });
-        //     var responseJson = await response.text()
-        //     console.warn(responseJson + '231412434324')
-        // }
 
         this._uploadImages()
 
-
         //上传完成后再调下面的内容
-        try {
+        /*try {
             let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
                 headers: {
@@ -400,58 +308,40 @@ export default class UploadOrderScreen extends React.Component {
                 loading: false,
             });
             Alert.alert('上传失败')
-        }
+        }*/
     }
 
     //上面的是乱七八糟的上传工单
     //下面的是乱七八糟的上传图片和视频
 
-    _closeUploadModal() {
-        this.setState({
-            showUploadModal: false,
-            uploadProgress: 0,
-            uploadTotal: 0,
-            uploadWritten: 0,
-            images: [],
-            cancelled: false,
-        });
-    }
 
-    _cancelUpload() {
-        RNUploader.cancel();
-        this.setState({uploading: false, cancelled: true});
-    }
+    async _uploadImages() {
+        // console.warn(this.state.images[1].uri.toString())
 
-    _uploadImages() {
-
-        let files = this.state.images.map((file) => {
-            return {
-                // name: 'file',
-                filename: _generateUUID + '.png',
-                filepath: file.uri,
-                filetype: 'image/png',
+        if (this.state.images.length > 0) {
+            const data = new FormData();
+            this.state.images.forEach((photo, index) => {
+                data.append('file', {
+                    uri: photo.uri,
+                    name: index + '.jpg',
+                    type: 'image/jpg',
+                });
+            });
+            try {
+                let res = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    body: data,
+                })
+                let json = await JSON.stringify(res)
+                console.warn(json)
+                // Alert.alert(json)
+            } catch (err) {
+                alert(`${err}`)
             }
-        });
-        let opts = {
-            url: 'http://118.190.43.124:8580/ycranetower/UserAct/upload.html',
-            files: files,
-            params: {name: 'file'}
-        };
-
-        this.setState({uploading: true, showUploadModal: true,});
-        RNUploader.upload(opts, (err, res) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-
-            let status = res.status;
-            let responseString = res.data;
-
-            console.log('Upload complete with status ' + status);
-            console.log(responseString);
-            this.setState({uploading: false, uploadStatus: status});
-        });
+        }
 
     }
 
