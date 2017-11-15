@@ -15,6 +15,7 @@ import styles from './styles';
 import React from 'react'
 import ImagePicker from 'react-native-image-picker';
 import Video from 'react-native-video';
+// import RNFetchBlob from 'react-native-fetch-blob'
 
 var parseString = require('react-native-xml2js').parseString;
 
@@ -28,9 +29,14 @@ export default class UploadOrderScreen extends React.Component {
             desc: '',
             videoSource: '',
 
-            images: [],
-            imagePath: [],
+            images: [],  //这个放的是本地的图片路径
+            imagePaths: [],//这个放的是上传之后的图片路径
+            imagePath: '',//定义已个变量接收只有一个图片的情况
 
+            animationType: 'none',
+            transparent: true,
+            modalVisible: false,
+            modalText: ''
         };
     }
 
@@ -123,6 +129,40 @@ export default class UploadOrderScreen extends React.Component {
                 </View>
 
                 <View style={styles.container}>
+
+                    <Modal
+                        animationType={this.state.animationType}
+                        transparent={this.state.transparent}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            this.setState({modalVisible: false});
+                        }}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center'}}>
+
+                            <View style={styles.modal}>
+                                <ActivityIndicator
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                    color="gray"
+                                    animating={true}
+                                    size="large"
+                                />
+                                <Text>{this.state.modalText}</Text>
+                            </View>
+                            {/*<View style={{
+                                width: 300}}>
+
+
+                            </View>*/}
+                        </View>
+
+                    </Modal>
 
                     <View style={{
                         flexDirection: 'row',
@@ -279,12 +319,114 @@ export default class UploadOrderScreen extends React.Component {
         if (this.state.desc == '') {
             return Alert.alert('请输入描述')
         }
-        //如果有图片，在这里请上传
 
         this._uploadImages()
+    }
 
-        //上传完成后再调下面的内容
-        /*try {
+    //上面的是乱七八糟的上传工单
+    //下面的是乱七八糟的上传图片和视频
+
+    async _uploadImages() {
+        if (this.state.images.length > 0) {
+
+            this.setState({
+                modalVisible: true,
+                modalText: '图片上传中..'
+            });
+
+            const data = new FormData();
+            this.state.images.forEach((photo) => {
+                data.append('file', {
+                    uri: photo.uri,
+                    name: '1.jpg',
+                    type: 'image/jpg',
+                });
+            });
+
+            try {
+                let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    body: data
+                })
+                let responseJson = await response.json()
+                if (responseJson.code == 'OK') {
+                    //接着上传事件
+                    this.setState({
+                        imagePath: responseJson.data
+                    });
+                    this._uploadVideo()
+                } else {
+                    Alert.alert('图片上传：' + responseJson.message)
+                    this.setState({
+                        modalVisible: false
+                    });
+                }
+            } catch (err) {
+                this.setState({
+                    modalVisible: false,
+                });
+                alert(`图片上传：${err}`)
+            }
+        } else {
+            this._uploadVideo()
+        }
+    }
+
+    async _uploadVideo() {
+        //图片走完了会再走视频
+        if (this.state.videoSource.length > 0) {
+            this.setState({
+                modalText: '视频上传中..'
+            });
+            const data = new FormData();
+            data.append('file', {
+                uri: this.state.videoSource,
+                name: 'video.mp4',
+                type: 'video/mp4',
+            });
+            try {
+                let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    body: data
+                })
+                let responseJson = await response.json()
+                if (responseJson.code == 'OK') {
+                    // Alert.alert(responseJson.data)
+                    // console.warn(responseJson.data)
+                    this.setState({
+                        videoSource: responseJson.data
+                    });
+                    this._uploadOrder()
+                } else {
+                    this.setState({
+                        modalVisible: false,
+                    });
+                    Alert.alert('视频上传' + responseJson.message)
+                }
+            } catch (err) {
+                this.setState({
+                    modalVisible: false,
+                });
+                Alert.alert(`视频上传：${err}`)
+            }
+        } else {
+            //如果没有视频的话直接上传工单
+            this._uploadOrder()
+        }
+    }
+
+    async _uploadOrder() {
+        let that = this
+        this.setState({
+            modalText: '工单上传中..',
+        });
+        try {
             let response = await fetch('http://114.104.160.233:8015/WebService/HHLJGTWebService.asmx/EventUpload', {
                 method: 'POST',
                 headers: {
@@ -296,55 +438,23 @@ export default class UploadOrderScreen extends React.Component {
 
             parseString(responseJson, function (err, result) {
                 if (result.boolean) {
-                    Alert.alert('上传成功')
+                    that.props.navigation.goBack()
+                    Alert.alert('上传工单成功')
                 } else {
-                    Alert.alert('上传失败')
+                    Alert.alert('上传工单失败')
                 }
             });
-
+            this.setState({
+                modalVisible: false,
+            });
         } catch (error) {
             console.error(error);
             this.setState({
-                loading: false,
+                modalVisible: false,
             });
-            Alert.alert('上传失败')
-        }*/
-    }
-
-    //上面的是乱七八糟的上传工单
-    //下面的是乱七八糟的上传图片和视频
-
-
-    async _uploadImages() {
-        // console.warn(this.state.images[1].uri.toString())
-
-        if (this.state.images.length > 0) {
-            const data = new FormData();
-            this.state.images.forEach((photo, index) => {
-                data.append('file', {
-                    uri: photo.uri,
-                    name: index + '.jpg',
-                    type: 'image/jpg',
-                });
-            });
-            try {
-                let res = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    body: data,
-                })
-                let json = await JSON.stringify(res)
-                console.warn(json)
-                // Alert.alert(json)
-            } catch (err) {
-                alert(`${err}`)
-            }
+            Alert.alert('上传工单失败')
         }
-
     }
-
 }
 
 function _generateUUID() {
