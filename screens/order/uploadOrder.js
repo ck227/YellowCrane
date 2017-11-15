@@ -27,7 +27,8 @@ export default class UploadOrderScreen extends React.Component {
             type: '日常上报',//这里的是上报的内容
             title: '',
             desc: '',
-            videoSource: '',
+            videoSource: '',//这里存的是本地的uri
+            videoURL : '',
 
             images: [],  //这个放的是本地的图片路径
             imagePaths: [],//这个放的是上传之后的图片路径
@@ -141,7 +142,8 @@ export default class UploadOrderScreen extends React.Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            alignItems: 'center'}}>
+                            alignItems: 'center'
+                        }}>
 
                             <View style={styles.modal}>
                                 <ActivityIndicator
@@ -333,7 +335,6 @@ export default class UploadOrderScreen extends React.Component {
                 modalVisible: true,
                 modalText: '图片上传中..'
             });
-
             const data = new FormData();
             this.state.images.forEach((photo) => {
                 data.append('file', {
@@ -342,9 +343,8 @@ export default class UploadOrderScreen extends React.Component {
                     type: 'image/jpg',
                 });
             });
-
             try {
-                let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+                let response = await fetch('http://118.190.43.124:8580/ycranetower/UploadAct/upload.html', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -352,14 +352,15 @@ export default class UploadOrderScreen extends React.Component {
                     body: data
                 })
                 let responseJson = await response.json()
-                if (responseJson.code == 'OK') {
+                if (responseJson.code == 200) {
+                    // console.warn(responseJson.data)
                     //接着上传事件
                     this.setState({
                         imagePath: responseJson.data
                     });
                     this._uploadVideo()
                 } else {
-                    Alert.alert('图片上传：' + responseJson.message)
+                    Alert.alert('图片上传1：' + responseJson.message)
                     this.setState({
                         modalVisible: false
                     });
@@ -368,7 +369,7 @@ export default class UploadOrderScreen extends React.Component {
                 this.setState({
                     modalVisible: false,
                 });
-                alert(`图片上传：${err}`)
+                alert(`图片上传2：${err}`)
             }
         } else {
             this._uploadVideo()
@@ -388,7 +389,7 @@ export default class UploadOrderScreen extends React.Component {
                 type: 'video/mp4',
             });
             try {
-                let response = await fetch('http://118.190.43.124:8580/ycranetower/UserAct/upload.html', {
+                let response = await fetch('http://118.190.43.124:8580/ycranetower/UploadAct/upload.html', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -396,11 +397,12 @@ export default class UploadOrderScreen extends React.Component {
                     body: data
                 })
                 let responseJson = await response.json()
-                if (responseJson.code == 'OK') {
-                    // Alert.alert(responseJson.data)
-                    // console.warn(responseJson.data)
+                // console.warn(responseJson.toString())
+                //
+                if (responseJson.code == 200) {
+                    // Alert.alert('视频上传成功'+responseJson.data)
                     this.setState({
-                        videoSource: responseJson.data
+                        videoURL: responseJson.data
                     });
                     this._uploadOrder()
                 } else {
@@ -432,10 +434,10 @@ export default class UploadOrderScreen extends React.Component {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=imgPath&VideoNames=videoNames&desc=${this.state.desc}&title=${this.state.title}`
+                body: `DEVID=15527021408&x=114.00&y=30.00&type=${this.state.type}&imgNames=${this.state.imagePath}&VideoNames=${this.state.videoURL}&desc=${this.state.desc}&title=${this.state.title}`
             });
             var responseJson = await response.text()
-
+            // console.warn(responseJson.toString())
             parseString(responseJson, function (err, result) {
                 if (result.boolean) {
                     that.props.navigation.goBack()
