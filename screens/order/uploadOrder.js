@@ -28,7 +28,7 @@ export default class UploadOrderScreen extends React.Component {
             title: '',
             desc: '',
             videoSource: '',//这里存的是本地的uri
-            videoURL : '',
+            videoURL: '',
 
             images: [],  //这个放的是本地的图片路径
             imagePaths: [],//这个放的是上传之后的图片路径
@@ -353,14 +353,13 @@ export default class UploadOrderScreen extends React.Component {
                 })
                 let responseJson = await response.json()
                 if (responseJson.code == 200) {
-                    // console.warn(responseJson.data)
-                    //接着上传事件
                     this.setState({
                         imagePath: responseJson.data
                     });
+                    Alert.alert(this.state.imagePath)
                     this._uploadVideo()
                 } else {
-                    Alert.alert('图片上传1：' + responseJson.message)
+                    Alert.alert('图片上传：' + responseJson.message)
                     this.setState({
                         modalVisible: false
                     });
@@ -369,7 +368,7 @@ export default class UploadOrderScreen extends React.Component {
                 this.setState({
                     modalVisible: false,
                 });
-                alert(`图片上传2：${err}`)
+                alert(`图片上传：${err}`)
             }
         } else {
             this._uploadVideo()
@@ -397,8 +396,6 @@ export default class UploadOrderScreen extends React.Component {
                     body: data
                 })
                 let responseJson = await response.json()
-                // console.warn(responseJson.toString())
-                //
                 if (responseJson.code == 200) {
                     // Alert.alert('视频上传成功'+responseJson.data)
                     this.setState({
@@ -418,8 +415,7 @@ export default class UploadOrderScreen extends React.Component {
                 Alert.alert(`视频上传：${err}`)
             }
         } else {
-            //如果没有视频的话直接上传工单
-            this._uploadOrder()
+            this._uploadOrder() //如果没有视频的话直接上传工单
         }
     }
 
