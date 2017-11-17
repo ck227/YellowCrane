@@ -21,10 +21,7 @@ import styles from './styles';
 
 const activityStarter = NativeModules.ActivityStarter;
 
-import storage from '../widget/Storage'
-import OrderDetailScreen from "../orderlist/orderDetail";
-
-class MainScreen extends Component {
+/*class MainScreen extends Component {
 
     //主界面的侧滑框架
     static navigationOptions = {
@@ -39,12 +36,11 @@ class MainScreen extends Component {
         )
     }
 
-}
+}*/
 
 const SideBarScreen = ({navigation}) => (
     <SideBarView2
         banner='这里可以传值到侧滑'
-        // banner2={navigation.state.params.userName}
         navigation={navigation}
     />
 );
@@ -55,7 +51,6 @@ class SideBarView2 extends Component {
             <ScrollView style={styles.bg}>
 
                 <View>
-
                     <Image style={{height: 150, justifyContent: 'center'}}
                            source={(require("../../assets/images/sideBarBg2.jpg"))}>
                         <View style={styles.title}>
@@ -75,7 +70,6 @@ class SideBarView2 extends Component {
                                    source={(require("../../assets/images/arrow_right.png"))}/>
                         </View>
                     </View>
-
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => activityStarter.navigateToIM()}>

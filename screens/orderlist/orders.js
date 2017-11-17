@@ -2,6 +2,7 @@ import {Text, View, Image, TouchableOpacity, TextInput, Alert, ActivityIndicator
 import React from 'react'
 import styles from './styles';
 
+
 var parseString = require('react-native-xml2js').parseString;
 
 export default class OrdersScreen extends React.Component {
@@ -15,7 +16,7 @@ export default class OrdersScreen extends React.Component {
             error: null,
             refreshing: false
         };
-        id = this.props.id
+        // id = this.props.id
     }
 
     componentDidMount() {
@@ -33,7 +34,6 @@ export default class OrdersScreen extends React.Component {
             body: `DEVID=15527021408&beginTime=&endTime=&title=&type=&flag=${this.props.id}&pageIndex=${this.state.page}&pageSize=20`
         });
         var responseJson = await response.text()
-
         parseString(responseJson, function (err, result) {
             that.setState({
                 data: page === 1 ? result.ArrayOfSS_JGTEVENT.SS_JGTEVENT : [...that.state.data, ...result.ArrayOfSS_JGTEVENT.SS_JGTEVENT],
@@ -82,9 +82,15 @@ export default class OrdersScreen extends React.Component {
     };
 
 // ,{},{} ,{title: item.EVENT_TITLE},{}
-    _itemClick = (item,index) => {
+    _itemClick = (item, index) => {
         // console.warn(item.EVENT_TYPE)
-        this.props.navigation.navigate('OrderDetailScreen', {type: item.EVENT_TYPE,title: item.EVENT_TITLE,desc:item.EVENT_DESC,imgs:item.EVENT_IMG,video:item.EVENT_VIDEO})
+        this.props.navigation.navigate('OrderDetailScreen', {
+            type: item.EVENT_TYPE,
+            title: item.EVENT_TITLE,
+            desc: item.EVENT_DESC,
+            images: item.EVENT_IMG,
+            video: item.EVENT_VIDEO
+        })
     };
 
     render() {
@@ -93,7 +99,7 @@ export default class OrdersScreen extends React.Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item, index}) => (
-                        <TouchableOpacity onPress={this._itemClick.bind(this, item,index)}>
+                        <TouchableOpacity onPress={this._itemClick.bind(this, item, index)}>
                             <View style={styles.item}>
                                 <View style={{flex: 1, flexDirection: 'row'}}>
                                     <Text style={{color: '#e84a22'}}>{item.EVENT_TITLE}</Text>
