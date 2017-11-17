@@ -353,10 +353,11 @@ export default class UploadOrderScreen extends React.Component {
                 })
                 let responseJson = await response.json()
                 if (responseJson.code == 200) {
+                    let tmp = responseJson.data.toString().replace(',', ';')
                     this.setState({
-                        imagePath: responseJson.data
+                        imagePath: tmp
+                        // imagePath: responseJson.data
                     });
-                    Alert.alert(this.state.imagePath)
                     this._uploadVideo()
                 } else {
                     Alert.alert('图片上传：' + responseJson.message)
@@ -368,7 +369,7 @@ export default class UploadOrderScreen extends React.Component {
                 this.setState({
                     modalVisible: false,
                 });
-                alert(`图片上传：${err}`)
+                alert(`图片上传错误：${err}`)
             }
         } else {
             this._uploadVideo()
