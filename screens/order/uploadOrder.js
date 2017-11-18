@@ -184,8 +184,7 @@ export default class UploadOrderScreen extends React.Component {
                             <Picker.Item label="游客意外伤害上报" value="游客意外伤害上报"/>
                             <Picker.Item label="景区内游客拥堵上报" value="景区内游客拥堵上报"/>
                             <Picker.Item label="食物中毒上报" value="食物中毒上报"/>
-                            <Picker.Item label="消防应急上报" value="消防应急上报
-                            "/>
+                            <Picker.Item label="消防应急上报" value="消防应急上报"/>
                             <Picker.Item label="黄金周及节假日上报" value="黄金周及节假日上报"/>
                             <Picker.Item label="其他上报" value="其他上报"/>
                         </Picker>
@@ -358,6 +357,7 @@ export default class UploadOrderScreen extends React.Component {
                         imagePath: tmp
                         // imagePath: responseJson.data
                     });
+                    // console.warn(this.state.imagePath + '6666')
                     this._uploadVideo()
                 } else {
                     Alert.alert('图片上传：' + responseJson.message)

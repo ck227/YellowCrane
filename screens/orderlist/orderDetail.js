@@ -11,20 +11,25 @@ export default class OrderDetailScreen extends React.Component {
             title: '',
             desc: '',
             videoSource: '',
-            images: ['upload/workorder/9506aaee-5b77-4571-a0db-2042daef4250_1.jpg','upload/workorder/9506aaee-5b77-4571-a0db-2042daef4250_1.jpg']
+            images: []
         };
     }
 
     componentDidMount() {
         const {params} = this.props.navigation.state;
-        // let images = this.state.images;
-        // var myArray = params.images.split(';');
+        let images = this.state.images;
+        let myArray = params.images.toString().split(';');
+        myArray.map((image) => {
+            images.push(image);
+        })
+        this.setState({
+            images: images
+        });
         this.setState({
             type: params.type,
             title: params.title,
             desc: params.desc,
-            videoSource: params.videoSource,
-            images : params.images.split(';')
+            video: params.video,
         })
     }
 
@@ -56,7 +61,8 @@ export default class OrderDetailScreen extends React.Component {
                     <Text style={{color: 'black', fontSize: 16}}>图片详情</Text>
                     {<View style={{flexDirection: 'row', flexWrap: 'wrap', padding: 16, backgroundColor: 'white'}}>
                         {this.state.images.map((image) => {
-                            return <Image key={_generateUUID()} source={{uri: 'http://114.104.160.233:8015/ycranetower/' + image.uri}}
+                            return <Image key={_generateUUID()}
+                                          source={{uri: 'http://118.190.43.124:8580/ycranetower/' + image}}
                                           style={styles.photo}/>
                         })}
                     </View>}
